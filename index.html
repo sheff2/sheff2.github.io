@@ -1,295 +1,291 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shaun Heffernan</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
-<style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shaun Heffernan</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  :root {
-    --bg: #0C0C11;
-    --bg2: #0A0A0F;
-    --accent: #7C6EFF;
-    --accent-dim: rgba(124,110,255,0.25);
-    --text: #E8E8F4;
-    --muted: rgba(255,255,255,0.28);
-    --faint: rgba(255,255,255,0.1);
-    --border: rgba(255,255,255,0.06);
-    --serif: 'DM Serif Display', Georgia, serif;
-    --mono: 'DM Mono', monospace;
-    --pad: clamp(24px, 5vw, 72px);
-  }
+    :root {
+      --accent: #7C6EFF;
+      --accent-dim: rgba(124,110,255,0.3);
+      --bg: #1a1a26;
+      --bg-deep: #16161f;
+      --text-primary: #EEEEF8;
+      --text-muted: rgba(255,255,255,0.38);
+      --text-faint: rgba(255,255,255,0.18);
+      --border: rgba(255,255,255,0.09);
+    }
 
-  html { scroll-behavior: smooth; }
+    html { scroll-behavior: smooth; }
 
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: var(--mono);
-    font-size: 13px;
-    line-height: 1.6;
-    overflow-x: hidden;
-    cursor: none;
-  }
+    body {
+      background: var(--bg);
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
 
-  /* ── CUSTOM CURSOR ── */
-  #cursor {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9999;
-    width: 6px; height: 6px; background: var(--accent);
-    border-radius: 50%; transform: translate(-50%, -50%);
-    transition: transform 0.1s ease;
-  }
-  #cursor-ring {
-    position: fixed; top: 0; left: 0; pointer-events: none; z-index: 9998;
-    width: 32px; height: 32px; border: 0.5px solid var(--accent-dim);
-    border-radius: 50%; transform: translate(-50%, -50%);
-    transition: left 0.12s ease, top 0.12s ease, width 0.2s ease, height 0.2s ease, opacity 0.2s ease;
-  }
+    /* ── NAV ── */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      padding: 22px 64px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 0.5px solid transparent;
+      transition: border-color 0.3s, background 0.3s;
+    }
+    nav.scrolled {
+      background: rgba(26,26,38,0.88);
+      backdrop-filter: blur(12px);
+      border-color: var(--border);
+    }
+    .nav-name { font-size: 13px; color: rgba(255,255,255,0.44); letter-spacing: 0.3px; }
+    .nav-links { display: flex; gap: 32px; }
+    .nav-links a {
+      font-size: 12px;
+      color: rgba(255,255,255,0.32);
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      transition: color 0.2s;
+    }
+    .nav-links a:hover { color: rgba(255,255,255,0.8); }
 
-  /* ── HERO ── */
-  #hero {
-    position: relative;
-    height: 100dvh;
-    min-height: 600px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-  }
+    /* ── HERO ── */
+    #hero {
+      position: relative;
+      height: 100vh;
+      min-height: 700px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 0 64px 52px;
+    }
+    #heroBg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+    }
+    .hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+      padding-top: 100px;
+    }
+    .hero-loc {
+      font-size: 11px;
+      letter-spacing: 3.5px;
+      color: rgba(255,255,255,0.32);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .hero-loc::before {
+      content: '';
+      display: block;
+      width: 28px;
+      height: 0.5px;
+      background: rgba(255,255,255,0.2);
+    }
+    .hero-name {
+      font-size: clamp(72px, 8vw, 110px);
+      font-weight: 500;
+      letter-spacing: -4px;
+      line-height: 0.92;
+      font-family: Georgia, 'Times New Roman', serif;
+      margin-bottom: 32px;
+    }
+    .hero-name .first { color: var(--text-primary); }
+    .hero-name .last  { color: var(--accent); }
+    .hero-bio {
+      max-width: 380px;
+      font-size: 14px;
+      color: rgba(255,255,255,0.52);
+      line-height: 1.85;
+      border-left: 0.5px solid rgba(124,110,255,0.35);
+      padding-left: 18px;
+    }
 
-  #constellation {
-    position: absolute; inset: 0;
-    pointer-events: none;
-  }
+    /* ── PROJECT STRIP ── */
+    .proj-strip {
+      position: relative;
+      z-index: 2;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      border-top: 0.5px solid rgba(255,255,255,0.11);
+      padding-top: 28px;
+    }
+    .proj-thumb {
+      padding-right: 24px;
+      border-right: 0.5px solid rgba(255,255,255,0.14);
+      cursor: pointer;
+      user-select: none;
+    }
+    .proj-thumb:not(:first-child) { padding-left: 24px; }
+    .proj-thumb:last-child { border-right: none; padding-right: 0; }
+    .proj-num  { font-size: 9px; letter-spacing: 2.5px; color: rgba(255,255,255,0.26); margin-bottom: 9px; }
+    .proj-name { font-size: 14px; font-weight: 500; color: #C8C8E8; margin-bottom: 4px; transition: color 0.2s; }
+    .proj-tech { font-size: 11px; color: rgba(255,255,255,0.36); line-height: 1.5; transition: color 0.2s; }
+    .proj-bar  { height: 1px; background: var(--accent); margin-top: 11px; width: 0; transition: width 0.38s ease; }
+    .proj-thumb:hover .proj-bar,
+    .proj-thumb.active .proj-bar  { width: 100%; }
+    .proj-thumb:hover .proj-name,
+    .proj-thumb.active .proj-name { color: #fff; }
+    .proj-thumb:hover .proj-tech  { color: rgba(124,110,255,0.7); }
 
-  .hero-inner {
-    position: relative; z-index: 2;
-    padding: var(--pad);
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-  }
+    /* ── DETAIL DRAWER ── */
+    #detail {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.6s cubic-bezier(0.16,1,0.3,1);
+      background: var(--bg-deep);
+      border-bottom: 0.5px solid var(--border);
+    }
+    #detail.open { max-height: 600px; }
+    .detail-inner {
+      padding: 56px 64px 60px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 64px;
+    }
+    .d-eyebrow { font-size: 10px; letter-spacing: 3px; color: rgba(124,110,255,0.6); margin-bottom: 18px; }
+    .d-title {
+      font-size: 42px;
+      font-weight: 500;
+      color: var(--text-primary);
+      letter-spacing: -1.8px;
+      line-height: 1;
+      margin-bottom: 22px;
+      font-family: Georgia, 'Times New Roman', serif;
+    }
+    .d-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 28px; }
+    .d-stats { display: flex; gap: 36px; }
+    .d-stat-n { font-size: 26px; font-weight: 500; color: var(--accent); letter-spacing: -1px; }
+    .d-stat-l { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 3px; letter-spacing: 1px; }
+    .d-stack-label { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.26); margin-bottom: 14px; }
+    .d-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
+    .d-chip {
+      font-size: 12px; color: #9D90FF;
+      border: 0.5px solid rgba(124,110,255,0.35);
+      padding: 6px 14px; border-radius: 4px;
+    }
+    .d-bullets { list-style: none; }
+    .d-bullet {
+      font-size: 13px; color: rgba(255,255,255,0.55);
+      padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.09);
+      line-height: 1.65; display: flex; gap: 12px;
+    }
+    .d-bullet::before { content: '—'; color: rgba(124,110,255,0.4); flex-shrink: 0; }
+    .d-bullet:last-child { border-bottom: none; }
+    .d-close {
+      margin-top: 24px; font-size: 11px; letter-spacing: 2px;
+      color: rgba(255,255,255,0.32); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 9px;
+      transition: color 0.2s;
+    }
+    .d-close:hover { color: rgba(255,255,255,0.6); }
+    .d-close svg path { stroke: currentColor; }
 
-  /* ── NAV ── */
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-shrink: 0;
-  }
-  .nav-name {
-    font-family: var(--mono);
-    font-size: 11px;
-    letter-spacing: 0.5px;
-    color: var(--muted);
-    font-weight: 300;
-  }
-  .nav-links { display: flex; gap: clamp(16px, 3vw, 32px); }
-  .nav-links a {
-    font-size: 11px; letter-spacing: 1px; color: rgba(255,255,255,0.2);
-    text-decoration: none; transition: color 0.2s;
-  }
-  .nav-links a:hover { color: rgba(255,255,255,0.7); }
+    /* ── EXPERIENCE ── */
+    #exp-section {
+      position: relative;
+      border-top: 0.5px solid var(--border);
+      overflow: hidden;
+    }
+    #expBg {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      pointer-events: none;
+      display: block;
+    }
+    .exp-inner {
+      position: relative;
+      z-index: 2;
+      padding: 72px 64px 80px;
+    }
+    .sec-label {
+      font-size: 10px;
+      letter-spacing: 4px;
+      color: rgba(255,255,255,0.26);
+      margin-bottom: 48px;
+    }
+    .exp-list { display: flex; flex-direction: column; }
+    .exp-row {
+      display: grid;
+      grid-template-columns: 220px 1fr 120px;
+      align-items: center;
+      padding: 26px 0;
+      border-bottom: 0.5px solid rgba(255,255,255,0.09);
+    }
+    .exp-row:last-child { border-bottom: none; }
+    .exp-date  { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; margin-bottom: 6px; }
+    .exp-co    { font-size: 15px; font-weight: 500; color: #D0D0EE; }
+    .exp-role  { font-size: 12px; color: rgba(124,110,255,0.55); margin-top: 4px; }
+    .exp-tags  { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 36px; }
+    .exp-tag {
+      font-size: 11px; color: rgba(255,255,255,0.4);
+      border: 0.5px solid rgba(255,255,255,0.14);
+      padding: 4px 10px; border-radius: 2px;
+      letter-spacing: 0.3px; transition: all 0.2s; cursor: default;
+    }
+    .exp-tag:hover { color: #9D90FF; border-color: rgba(124,110,255,0.45); }
+    .exp-loc { font-size: 11px; color: rgba(255,255,255,0.36); text-align: right; }
 
-  /* ── HERO MIDDLE ── */
-  .hero-mid {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  .hero-loc {
-    display: flex; align-items: center; gap: 12px;
-    font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.2);
-    margin-bottom: clamp(20px, 3vh, 36px);
-  }
-  .hero-loc::before {
-    content: '';
-    display: block; width: 28px; height: 0.5px;
-    background: rgba(255,255,255,0.2);
-  }
-
-  .hero-name {
-    font-family: var(--serif);
-    font-size: clamp(52px, 9vw, 110px);
-    letter-spacing: -0.03em;
-    line-height: 0.92;
-    margin-bottom: clamp(20px, 3vh, 32px);
-  }
-  .hero-name .first { color: var(--text); display: block; }
-  .hero-name .last  { color: var(--accent); display: block; }
-
-  .hero-bio {
-    max-width: min(340px, 80vw);
-    font-size: clamp(12px, 1.3vw, 14px);
-    color: rgba(255,255,255,0.38);
-    line-height: 1.85;
-    border-left: 0.5px solid rgba(124,110,255,0.35);
-    padding-left: 16px;
-    font-weight: 300;
-  }
-
-  /* ── PROJECT STRIP ── */
-  .hero-projects {
-    flex-shrink: 0;
-    border-top: 0.5px solid var(--border);
-    padding-top: clamp(16px, 2.5vh, 28px);
-    display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-    gap: 0;
-  }
-
-  @media (max-width: 640px) {
-    .hero-projects { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px 0; }
-  }
-
-  .proj-thumb {
-    padding-right: clamp(10px, 2vw, 24px);
-    border-right: 0.5px solid var(--border);
-    cursor: pointer;
-  }
-  .proj-thumb:not(:first-child) { padding-left: clamp(10px, 2vw, 24px); }
-  .proj-thumb:last-child { border-right: none; }
-
-  @media (max-width: 640px) {
-    .proj-thumb:nth-child(2) { border-right: none; }
-    .proj-thumb:nth-child(3) { border-right: 0.5px solid var(--border); padding-left: 0; }
-    .proj-thumb:nth-child(3),
-    .proj-thumb:nth-child(4) { padding-top: 16px; border-top: 0.5px solid var(--border); }
-  }
-
-  .proj-num { font-size: 9px; letter-spacing: 2px; color: rgba(255,255,255,0.14); margin-bottom: 7px; }
-  .proj-name { font-size: clamp(12px, 1.4vw, 14px); font-weight: 500; color: #C4C4E0; margin-bottom: 4px; transition: color 0.2s; }
-  .proj-tech { font-size: 10px; color: rgba(255,255,255,0.2); line-height: 1.5; transition: color 0.2s; font-weight: 300; }
-  .proj-bar { height: 1px; background: var(--accent); margin-top: 10px; width: 0; transition: width 0.38s ease; }
-  .proj-thumb:hover .proj-bar,
-  .proj-thumb.active .proj-bar { width: 100%; }
-  .proj-thumb:hover .proj-name,
-  .proj-thumb.active .proj-name { color: #fff; }
-  .proj-thumb:hover .proj-tech { color: rgba(124,110,255,0.6); }
-
-  /* ── DETAIL DRAWER ── */
-  #detail {
-    max-height: 0; overflow: hidden;
-    transition: max-height 0.6s cubic-bezier(0.16,1,0.3,1);
-    background: var(--bg2);
-    border-top: 0.5px solid var(--border);
-  }
-  #detail.open { max-height: 600px; }
-
-  .detail-inner {
-    padding: clamp(32px, 5vw, 56px) var(--pad);
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: clamp(28px, 5vw, 56px);
-  }
-  @media (max-width: 640px) {
-    .detail-inner { grid-template-columns: 1fr; }
-    #detail.open { max-height: 900px; }
-  }
-
-  .d-eye { font-size: 10px; letter-spacing: 3px; color: rgba(124,110,255,0.6); margin-bottom: 14px; }
-  .d-title { font-family: var(--serif); font-size: clamp(28px, 4vw, 42px); letter-spacing: -0.03em; color: var(--text); line-height: 1; margin-bottom: 18px; }
-  .d-desc { font-size: 12px; color: rgba(255,255,255,0.38); line-height: 1.9; margin-bottom: 22px; font-weight: 300; }
-  .d-stats { display: flex; gap: 28px; }
-  .d-stat-n { font-family: var(--serif); font-size: 22px; color: var(--accent); }
-  .d-stat-l { font-size: 10px; color: rgba(255,255,255,0.28); margin-top: 2px; letter-spacing: 1px; }
-
-  .d-stack-label { font-size: 9px; letter-spacing: 3px; color: rgba(255,255,255,0.16); margin-bottom: 12px; }
-  .d-chips { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 24px; }
-  .d-chip { font-size: 10px; color: rgba(157,144,255,0.9); border: 0.5px solid rgba(124,110,255,0.3); padding: 4px 11px; border-radius: 3px; font-weight: 300; }
-  .d-bullets { list-style: none; }
-  .d-bullet { font-size: 11px; color: rgba(255,255,255,0.28); padding: 8px 0; border-bottom: 0.5px solid rgba(255,255,255,0.05); display: flex; gap: 10px; line-height: 1.65; font-weight: 300; }
-  .d-bullet::before { content: '—'; color: rgba(124,110,255,0.4); flex-shrink: 0; }
-  .d-close {
-    display: inline-flex; align-items: center; gap: 8px;
-    margin-top: 20px; font-size: 10px; letter-spacing: 2px;
-    color: rgba(255,255,255,0.2); cursor: pointer; transition: color 0.2s;
-  }
-  .d-close:hover { color: rgba(255,255,255,0.55); }
-
-  /* ── EXPERIENCE ── */
-  #experience {
-    position: relative; overflow: hidden;
-    border-top: 0.5px solid var(--border);
-  }
-  #expCanvas { position: absolute; inset: 0; pointer-events: none; }
-  .exp-inner { position: relative; z-index: 2; padding: clamp(40px, 6vh, 72px) var(--pad); }
-  .sec-label { font-size: 9px; letter-spacing: 4px; color: rgba(255,255,255,0.15); margin-bottom: clamp(28px, 4vh, 48px); }
-
-  .exp-row {
-    display: grid;
-    grid-template-columns: clamp(130px, 18vw, 180px) 1fr auto;
-    gap: clamp(16px, 3vw, 32px);
-    align-items: center;
-    padding: clamp(16px, 2.5vh, 22px) 0;
-    border-bottom: 0.5px solid rgba(255,255,255,0.05);
-  }
-  .exp-row:last-child { border-bottom: none; }
-
-  @media (max-width: 640px) {
-    .exp-row { grid-template-columns: 1fr; gap: 10px; }
-    .exp-loc { display: none; }
-  }
-
-  .exp-date { font-size: 10px; color: rgba(255,255,255,0.18); letter-spacing: 0.3px; margin-bottom: 5px; font-weight: 300; }
-  .exp-co { font-size: clamp(13px, 1.5vw, 15px); font-weight: 500; color: #D0D0EE; }
-  .exp-role { font-size: 11px; color: rgba(124,110,255,0.6); margin-top: 3px; font-weight: 300; }
-  .exp-tags { display: flex; flex-wrap: wrap; gap: 5px; }
-  .exp-tag {
-    font-size: 10px; color: rgba(255,255,255,0.22);
-    border: 0.5px solid rgba(255,255,255,0.08);
-    padding: 3px 9px; border-radius: 2px;
-    transition: all 0.2s; cursor: default; font-weight: 300;
-  }
-  .exp-tag:hover { color: rgba(157,144,255,0.9); border-color: rgba(124,110,255,0.35); }
-  .exp-loc { font-size: 10px; color: rgba(255,255,255,0.14); text-align: right; white-space: nowrap; font-weight: 300; }
-
-  /* ── FOOTER ── */
-  footer {
-    padding: clamp(20px, 3vh, 28px) var(--pad);
-    border-top: 0.5px solid var(--border);
-    display: flex; justify-content: space-between; align-items: center;
-    flex-wrap: wrap; gap: 12px;
-  }
-  .footer-l { font-size: 10px; color: rgba(255,255,255,0.16); font-weight: 300; }
-  .footer-r { display: flex; gap: 20px; }
-  .footer-r a { font-size: 10px; color: rgba(255,255,255,0.2); text-decoration: none; transition: color 0.2s; }
-  .footer-r a:hover { color: var(--accent); }
-</style>
+    /* ── FOOTER ── */
+    footer {
+      padding: 28px 64px;
+      border-top: 0.5px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .footer-l { font-size: 12px; color: rgba(255,255,255,0.26); }
+    .footer-r { display: flex; gap: 28px; }
+    .footer-r a {
+      font-size: 12px; color: rgba(255,255,255,0.32);
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-r a:hover { color: var(--accent); }
+  </style>
 </head>
 <body>
 
-<div id="cursor"></div>
-<div id="cursor-ring"></div>
+  <!-- NAV -->
+  <nav id="navbar">
+    <div class="nav-name">Shaun Heffernan</div>
+    <div class="nav-links">
+      <a href="https://github.com/sheff2" target="_blank">GitHub</a>
+      <a href="https://www.linkedin.com/in/shaunheff/" target="_blank">LinkedIn</a>
+    </div>
+  </nav>
 
-<!-- HERO -->
-<section id="hero">
-  <canvas id="constellation"></canvas>
-  <div class="hero-inner">
-    <nav>
-      <div class="nav-name">Shaun Heffernan</div>
-      <div class="nav-links">
-        <a href="https://github.com/sheff2" target="_blank">GitHub</a>
-        <a href="https://linkedin.com/in/shaunheff" target="_blank">LinkedIn</a>
-        <a href="#" target="_blank">Resume</a>
+  <!-- HERO -->
+  <section id="hero">
+    <canvas id="heroBg"></canvas>
+    <div class="hero-content">
+      <div class="hero-loc">Gainesville, FL &nbsp;·&nbsp; UF 2028</div>
+      <div class="hero-name">
+        <div class="first">Shaun</div>
+        <div class="last">Heffernan</div>
       </div>
-    </nav>
-
-    <div class="hero-mid">
-      <div class="hero-loc">Gainesville, FL · UF 2028</div>
-      <h1 class="hero-name">
-        <span class="first">Shaun</span>
-        <span class="last">Heffernan</span>
-      </h1>
-      <p class="hero-bio">Software engineer building AI systems, embedded devices, and full-stack products — things that work in the real world, not just in demos.</p>
+      <div class="hero-bio">
+        Software engineer building AI systems, embedded devices, and full-stack products — things that work in the real world, not just in demos.
+      </div>
     </div>
 
-    <div class="hero-projects" id="proj-thumbs">
+    <div class="proj-strip" id="proj-thumbs">
       <div class="proj-thumb" data-idx="0">
         <div class="proj-num">01 — AI</div>
         <div class="proj-name">Smart Glasses</div>
@@ -310,347 +306,375 @@
       </div>
       <div class="proj-thumb" data-idx="3">
         <div class="proj-num">04 — Full Stack</div>
-        <div class="proj-name">Big & Little</div>
+        <div class="proj-name">Big &amp; Little</div>
         <div class="proj-tech">MERN · Expo Go · MongoDB</div>
         <div class="proj-bar"></div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- PROJECT DETAIL DRAWER -->
-<div id="detail">
-  <div class="detail-inner">
-    <div>
-      <div class="d-eye" id="d-eye"></div>
-      <div class="d-title" id="d-title"></div>
-      <div class="d-desc" id="d-desc"></div>
-      <div class="d-stats" id="d-stats"></div>
-    </div>
-    <div style="display:flex;flex-direction:column;justify-content:space-between;">
+  <!-- PROJECT DETAIL DRAWER -->
+  <div id="detail">
+    <div class="detail-inner">
       <div>
-        <div class="d-stack-label">STACK</div>
-        <div class="d-chips" id="d-chips"></div>
-        <ul class="d-bullets" id="d-bullets"></ul>
+        <div class="d-eyebrow" id="d-eye"></div>
+        <div class="d-title"   id="d-title"></div>
+        <div class="d-desc"    id="d-desc"></div>
+        <div class="d-stats"   id="d-stats"></div>
       </div>
-      <div class="d-close" id="d-close">
-        <svg width="10" height="10" viewBox="0 0 10 10" fill="none">
-          <path d="M1 1l8 8M9 1L1 9" stroke="rgba(255,255,255,0.35)" stroke-width="1"/>
-        </svg>
-        CLOSE
+      <div style="display:flex;flex-direction:column;justify-content:space-between;">
+        <div>
+          <div class="d-stack-label">STACK</div>
+          <div class="d-chips"   id="d-chips"></div>
+          <ul  class="d-bullets" id="d-bullets"></ul>
+        </div>
+        <div class="d-close" id="d-close">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            <path d="M1 1l10 10M11 1L1 11" stroke="currentColor" stroke-width="1"/>
+          </svg>
+          CLOSE
+        </div>
       </div>
-    </div>
-  </div>
-</div>
-
-<!-- EXPERIENCE -->
-<section id="experience">
-  <canvas id="expCanvas"></canvas>
-  <div class="exp-inner">
-    <div class="sec-label">EXPERIENCE</div>
-    <div class="exp-row">
-      <div>
-        <div class="exp-date">Jun – Aug 2025</div>
-        <div class="exp-co">Prudential</div>
-        <div class="exp-role">Software Engineering Intern</div>
-      </div>
-      <div class="exp-tags">
-        <span class="exp-tag">Python</span>
-        <span class="exp-tag">PowerBI</span>
-        <span class="exp-tag">Graph API</span>
-        <span class="exp-tag">GitHub</span>
-        <span class="exp-tag">Parallelization</span>
-      </div>
-      <div class="exp-loc">Newark, NJ</div>
-    </div>
-    <div class="exp-row">
-      <div>
-        <div class="exp-date">Sep 2025 – Present</div>
-        <div class="exp-co">UF Real World Eng.</div>
-        <div class="exp-role">Software Engineer · AI</div>
-      </div>
-      <div class="exp-tags">
-        <span class="exp-tag">Ollama</span>
-        <span class="exp-tag">OpenCV</span>
-        <span class="exp-tag">WebSocket</span>
-        <span class="exp-tag">Redimnet</span>
-        <span class="exp-tag">Python</span>
-        <span class="exp-tag">ROS2</span>
-      </div>
-      <div class="exp-loc">Gainesville, FL</div>
-    </div>
-    <div class="exp-row">
-      <div>
-        <div class="exp-date">Sep 2024 – May 2025</div>
-        <div class="exp-co">UF Real World Eng.</div>
-        <div class="exp-role">Full-Stack Developer</div>
-      </div>
-      <div class="exp-tags">
-        <span class="exp-tag">React</span>
-        <span class="exp-tag">Node.js</span>
-        <span class="exp-tag">MongoDB</span>
-        <span class="exp-tag">Expo Go</span>
-        <span class="exp-tag">JWT</span>
-      </div>
-      <div class="exp-loc">Gainesville, FL</div>
     </div>
   </div>
-</section>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-l">heffernanshaun2@gmail.com</div>
-  <div class="footer-r">
-    <a href="https://github.com/sheff2" target="_blank">github.com/sheff2</a>
-    <a href="https://linkedin.com/in/shaunheff" target="_blank">linkedin.com/in/shaunheff</a>
-  </div>
-</footer>
+  <!-- EXPERIENCE -->
+  <section id="exp-section">
+    <canvas id="expBg"></canvas>
+    <div class="exp-inner">
+      <div class="sec-label">EXPERIENCE</div>
+      <div class="exp-list">
 
-<script>
-// ── CURSOR ───────────────────────────────────────────────
-const cur = document.getElementById('cursor');
-const ring = document.getElementById('cursor-ring');
-let cx2 = 0, cy2 = 0;
-document.addEventListener('mousemove', e => {
-  cx2 = e.clientX; cy2 = e.clientY;
-  cur.style.left = cx2 + 'px'; cur.style.top = cy2 + 'px';
-  ring.style.left = cx2 + 'px'; ring.style.top = cy2 + 'px';
-});
-document.querySelectorAll('a, .proj-thumb, .exp-tag, .d-close').forEach(el => {
-  el.addEventListener('mouseenter', () => { ring.style.width = '52px'; ring.style.height = '52px'; });
-  el.addEventListener('mouseleave', () => { ring.style.width = '32px'; ring.style.height = '32px'; });
-});
+        <div class="exp-row">
+          <div>
+            <div class="exp-date">Jun – Aug 2025</div>
+            <div class="exp-co">Prudential</div>
+            <div class="exp-role">Software Engineering Intern</div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">Python</span>
+            <span class="exp-tag">PowerBI</span>
+            <span class="exp-tag">Graph API</span>
+            <span class="exp-tag">Parallelization</span>
+            <span class="exp-tag">GitHub</span>
+          </div>
+          <div class="exp-loc">Newark, NJ</div>
+        </div>
 
-// ── HERO CONSTELLATION ───────────────────────────────────
-const hcanvas = document.getElementById('constellation');
-const hctx = hcanvas.getContext('2d');
-let HW, HH, hmx, hmy, hmxT, hmyT;
-let HSTARS = [];
+        <div class="exp-row">
+          <div>
+            <div class="exp-date">Sep 2025 – Present</div>
+            <div class="exp-co">UF Real World Eng.</div>
+            <div class="exp-role">Software Engineer · AI</div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">Ollama</span>
+            <span class="exp-tag">OpenCV</span>
+            <span class="exp-tag">WebSocket</span>
+            <span class="exp-tag">Redimnet</span>
+            <span class="exp-tag">Python</span>
+            <span class="exp-tag">ROS2</span>
+          </div>
+          <div class="exp-loc">Gainesville, FL</div>
+        </div>
 
-function initHero() {
-  HW = hcanvas.width = hcanvas.offsetWidth;
-  HH = hcanvas.height = hcanvas.offsetHeight;
-  hmx = hmxT = HW * 0.65; hmy = hmyT = HH * 0.3;
-  HSTARS = Array.from({length: Math.floor(HW * HH / 8000)}, () => ({
-    x: Math.random() * HW, y: Math.random() * HH,
-    r: 0.6 + Math.random() * 1.4,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.002 + Math.random() * 0.005,
-    ox: 0, oy: 0
-  }));
-}
+        <div class="exp-row">
+          <div>
+            <div class="exp-date">Sep 2024 – May 2025</div>
+            <div class="exp-co">UF Real World Eng.</div>
+            <div class="exp-role">Full-Stack Developer</div>
+          </div>
+          <div class="exp-tags">
+            <span class="exp-tag">React</span>
+            <span class="exp-tag">Node.js</span>
+            <span class="exp-tag">MongoDB</span>
+            <span class="exp-tag">Expo Go</span>
+            <span class="exp-tag">JWT</span>
+          </div>
+          <div class="exp-loc">Gainesville, FL</div>
+        </div>
 
-document.getElementById('hero').addEventListener('mousemove', e => {
-  const r = hcanvas.getBoundingClientRect();
-  hmxT = e.clientX - r.left; hmyT = e.clientY - r.top;
-});
+      </div>
+    </div>
+  </section>
 
-function drawHero() {
-  hctx.clearRect(0, 0, HW, HH);
-  hmx += (hmxT - hmx) * 0.04; hmy += (hmyT - hmy) * 0.04;
-  const REACH = Math.min(HW, HH) * 0.42;
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-l">heffernanshaun2@gmail.com &nbsp;·&nbsp; 973-652-1463</div>
+    <div class="footer-r">
+      <a href="https://github.com/sheff2" target="_blank">github.com/sheff2</a>
+      <a href="https://www.linkedin.com/in/shaunheff/" target="_blank">linkedin.com/in/shaunheff</a>
+    </div>
+  </footer>
 
-  HSTARS.forEach(s => {
-    s.phase += s.speed;
-    const dx = s.x - hmx, dy = s.y - hmy;
-    const d = Math.sqrt(dx*dx + dy*dy);
-    const inf = Math.max(0, 1 - d / REACH);
-    const a = Math.atan2(dy, dx);
-    s.ox += (Math.cos(a) * inf * 18 - s.ox) * 0.035;
-    s.oy += (Math.sin(a) * inf * 18 - s.oy) * 0.035;
-  });
+  <script>
+    // ── NAV SCROLL EFFECT ──────────────────────────────────────
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
+    });
 
-  for (let i = 0; i < HSTARS.length; i++) {
-    for (let j = i + 1; j < HSTARS.length; j++) {
-      const a = HSTARS[i], b = HSTARS[j];
-      const ax = a.x + a.ox, ay = a.y + a.oy;
-      const bx = b.x + b.ox, by = b.y + b.oy;
-      const dx = ax - bx, dy = ay - by;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < 95) {
-        const ai = Math.max(0, 1 - Math.sqrt((a.x-hmx)**2+(a.y-hmy)**2)/REACH);
-        const bi = Math.max(0, 1 - Math.sqrt((b.x-hmx)**2+(b.y-hmy)**2)/REACH);
-        const alpha = (1 - d/95) * (0.06 + Math.max(ai,bi) * 0.26);
-        hctx.beginPath(); hctx.moveTo(ax, ay); hctx.lineTo(bx, by);
-        hctx.strokeStyle = `rgba(124,110,255,${alpha})`; hctx.lineWidth = 0.5; hctx.stroke();
-      }
+    // ── HERO CONSTELLATION ─────────────────────────────────────
+    const heroBg = document.getElementById('heroBg');
+    const hx = heroBg.getContext('2d');
+    let HW, HH;
+
+    function resizeHero() {
+      HW = heroBg.width  = heroBg.offsetWidth  || window.innerWidth;
+      HH = heroBg.height = heroBg.offsetHeight || window.innerHeight;
+      HSTARS.forEach(s => {
+        s.x = Math.random() * HW;
+        s.y = Math.random() * HH;
+        s.ox = 0; s.oy = 0;
+      });
+      hmx = HW * 0.65; hmy = HH * 0.35;
+      hmxT = hmx; hmyT = hmy;
     }
-  }
 
-  HSTARS.forEach(s => {
-    const px = s.x + s.ox + Math.sin(s.phase) * 0.6;
-    const py = s.y + s.oy + Math.cos(s.phase * 0.7) * 0.6;
-    const inf = Math.max(0, 1 - Math.sqrt((s.x-hmx)**2+(s.y-hmy)**2)/REACH);
-    hctx.beginPath(); hctx.arc(px, py, s.r + inf * 2.2, 0, Math.PI*2);
-    hctx.fillStyle = `rgba(195,185,255,${0.15 + inf * 0.75})`; hctx.fill();
-  });
+    const HSTARS = Array.from({length: 130}, () => ({
+      x: 0, y: 0,
+      r: 0.6 + Math.random() * 1.4,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.002 + Math.random() * 0.005,
+      ox: 0, oy: 0
+    }));
 
-  requestAnimationFrame(drawHero);
-}
+    let hmx = 0, hmy = 0, hmxT = 0, hmyT = 0;
 
-// ── EXP CONSTELLATION ────────────────────────────────────
-const ecanvas = document.getElementById('expCanvas');
-const ectx = ecanvas.getContext('2d');
-let EW2, EH2, emx, emy, emxT, emyT;
-let ESTARS = [];
+    document.getElementById('hero').addEventListener('mousemove', e => {
+      hmxT = e.clientX;
+      hmyT = e.clientY;
+    });
 
-function initExp() {
-  EW2 = ecanvas.width = ecanvas.offsetWidth;
-  EH2 = ecanvas.height = ecanvas.offsetHeight;
-  emx = emxT = EW2 * 0.7; emy = emyT = EH2 * 0.5;
-  ESTARS = Array.from({length: Math.floor(EW2 * EH2 / 10000)}, () => ({
-    x: Math.random() * EW2, y: Math.random() * EH2,
-    r: 0.5 + Math.random() * 1.1,
-    phase: Math.random() * Math.PI * 2,
-    speed: 0.002 + Math.random() * 0.004,
-    ox: 0, oy: 0
-  }));
-}
+    window.addEventListener('resize', resizeHero);
+    resizeHero();
 
-document.getElementById('experience').addEventListener('mousemove', e => {
-  const r = ecanvas.getBoundingClientRect();
-  emxT = e.clientX - r.left; emyT = e.clientY - r.top;
-});
+    function drawHero() {
+      hx.clearRect(0, 0, HW, HH);
+      hmx += (hmxT - hmx) * 0.04;
+      hmy += (hmyT - hmy) * 0.04;
 
-function drawExp() {
-  ectx.clearRect(0, 0, EW2, EH2);
-  emx += (emxT - emx) * 0.04; emy += (emyT - emy) * 0.04;
-  const REACH = Math.min(EW2, EH2) * 0.55;
+      HSTARS.forEach(s => {
+        s.phase += s.speed;
+        const dx = s.x - hmx, dy = s.y - hmy;
+        const d  = Math.sqrt(dx*dx + dy*dy);
+        const inf = Math.max(0, 1 - d / (HW * 0.28));
+        const a  = Math.atan2(dy, dx);
+        s.ox += (Math.cos(a) * inf * 18 - s.ox) * 0.035;
+        s.oy += (Math.sin(a) * inf * 18 - s.oy) * 0.035;
+      });
 
-  ESTARS.forEach(s => {
-    s.phase += s.speed;
-    const dx = s.x - emx, dy = s.y - emy;
-    const d = Math.sqrt(dx*dx + dy*dy);
-    const inf = Math.max(0, 1 - d / REACH);
-    const a = Math.atan2(dy, dx);
-    s.ox += (Math.cos(a) * inf * 12 - s.ox) * 0.035;
-    s.oy += (Math.sin(a) * inf * 12 - s.oy) * 0.035;
-  });
-
-  for (let i = 0; i < ESTARS.length; i++) {
-    for (let j = i + 1; j < ESTARS.length; j++) {
-      const a = ESTARS[i], b = ESTARS[j];
-      const ax = a.x + a.ox, ay = a.y + a.oy;
-      const bx = b.x + b.ox, by = b.y + b.oy;
-      const dx = ax - bx, dy = ay - by;
-      const d = Math.sqrt(dx*dx + dy*dy);
-      if (d < 78) {
-        const ai = Math.max(0, 1 - Math.sqrt((a.x-emx)**2+(a.y-emy)**2)/REACH);
-        const bi = Math.max(0, 1 - Math.sqrt((b.x-emx)**2+(b.y-emy)**2)/REACH);
-        const alpha = (1 - d/78) * (0.05 + Math.max(ai,bi) * 0.18);
-        ectx.beginPath(); ectx.moveTo(ax, ay); ectx.lineTo(bx, by);
-        ectx.strokeStyle = `rgba(124,110,255,${alpha})`; ectx.lineWidth = 0.5; ectx.stroke();
+      for (let i = 0; i < HSTARS.length; i++) {
+        for (let j = i + 1; j < HSTARS.length; j++) {
+          const a = HSTARS[i], b = HSTARS[j];
+          const ax = a.x + a.ox, ay = a.y + a.oy;
+          const bx = b.x + b.ox, by = b.y + b.oy;
+          const dx = ax - bx, dy = ay - by;
+          const d  = Math.sqrt(dx*dx + dy*dy);
+          if (d < 100) {
+            const ai = Math.max(0, 1 - Math.sqrt((a.x-hmx)**2+(a.y-hmy)**2) / (HW*0.28));
+            const bi = Math.max(0, 1 - Math.sqrt((b.x-hmx)**2+(b.y-hmy)**2) / (HW*0.28));
+            hx.beginPath();
+            hx.moveTo(ax, ay); hx.lineTo(bx, by);
+            hx.strokeStyle = `rgba(124,110,255,${(1 - d/100) * (0.1 + Math.max(ai,bi) * 0.35)})`;
+            hx.lineWidth = 0.5;
+            hx.stroke();
+          }
+        }
       }
+
+      HSTARS.forEach(s => {
+        const px  = s.x + s.ox + Math.sin(s.phase) * 0.8;
+        const py  = s.y + s.oy + Math.cos(s.phase * 0.7) * 0.8;
+        const inf = Math.max(0, 1 - Math.sqrt((s.x-hmx)**2+(s.y-hmy)**2) / (HW*0.28));
+        hx.beginPath();
+        hx.arc(px, py, s.r + inf * 2.2, 0, Math.PI * 2);
+        hx.fillStyle = `rgba(200,190,255,${0.22 + inf * 0.78})`;
+        hx.fill();
+      });
+
+      requestAnimationFrame(drawHero);
     }
-  }
+    drawHero();
 
-  ESTARS.forEach(s => {
-    const px = s.x + s.ox + Math.sin(s.phase) * 0.5;
-    const py = s.y + s.oy + Math.cos(s.phase * 0.7) * 0.5;
-    const inf = Math.max(0, 1 - Math.sqrt((s.x-emx)**2+(s.y-emy)**2)/REACH);
-    ectx.beginPath(); ectx.arc(px, py, s.r + inf * 1.6, 0, Math.PI*2);
-    ectx.fillStyle = `rgba(195,185,255,${0.1 + inf * 0.48})`; ectx.fill();
-  });
+    // ── EXP CONSTELLATION ──────────────────────────────────────
+    const expBg  = document.getElementById('expBg');
+    const ex     = expBg.getContext('2d');
+    let EW, EH;
+    let emx = 0, emy = 0, emxT = 0, emyT = 0;
 
-  requestAnimationFrame(drawExp);
-}
+    const ESTARS = Array.from({length: 80}, () => ({
+      x: 0, y: 0,
+      r: 0.5 + Math.random() * 1.2,
+      phase: Math.random() * Math.PI * 2,
+      speed: 0.002 + Math.random() * 0.004,
+      ox: 0, oy: 0
+    }));
 
-// ── RESIZE ───────────────────────────────────────────────
-const ro = new ResizeObserver(() => { initHero(); initExp(); });
-ro.observe(document.getElementById('hero'));
-ro.observe(document.getElementById('experience'));
-initHero(); initExp();
-drawHero(); drawExp();
+    function resizeExp() {
+      const sect = document.getElementById('exp-section');
+      EW = expBg.width  = sect.offsetWidth;
+      EH = expBg.height = sect.offsetHeight;
+      ESTARS.forEach(s => {
+        s.x = Math.random() * EW;
+        s.y = Math.random() * EH;
+        s.ox = 0; s.oy = 0;
+      });
+      emx = EW * 0.75; emy = EH * 0.5;
+      emxT = emx; emyT = emy;
+    }
 
-// ── PROJECT DATA ─────────────────────────────────────────
-const PROJECTS = [
-  {
-    eye: '01 — AI · UF Real World Engineering',
-    title: 'Smart Glasses',
-    desc: 'AI-powered smart glasses helping dementia patients through real-time face and voice recognition with personalized context recall.',
-    stats: [{n:'RTF 0.8',l:'pipeline speed'},{n:'Live',l:'diarization'}],
-    chips: ['Ollama','OpenCV','WebSocket','Redimnet','Python','ROS2'],
-    bullets: [
-      'Real-time audio pipeline with WebSocket streaming and chunked event dispatch',
-      'Speaker diarization via Redimnet voice embeddings at RTF 0.8',
-      'Cross-modal identity system reconciling audio and vision embeddings',
-      'LLM context engine storing per-person memory profiles via Ollama',
-    ]
-  },
-  {
-    eye: '02 — LLM · Hackathon Project',
-    title: 'PermitPal',
-    desc: 'LLM-powered search engine recommending least-privilege RBAC bundles from Sailpoint. PII compliant with on-prem fallback mode.',
-    stats: [{n:'10×',l:'latency reduction'},{n:'2nd',l:'hackathon place'}],
-    chips: ['Next.js','TypeScript','OpenAI','Ollama','Tailwind','Vercel'],
-    bullets: [
-      'LLM-powered RBAC bundle recommendations from Sailpoint',
-      'Cut query latency 10× by routing hot path from Ollama to OpenAI',
-      'On-prem Ollama fallback preserving PII compliance for production',
-      'Presented to the product owner of the onboarding experience',
-    ]
-  },
-  {
-    eye: '03 — IoT · Embedded Systems',
-    title: 'BioClock',
-    desc: 'Wearable IoT alarm that eliminates snooze by detecting wakefulness through motion and heart rate. Edge AI runs fully on-device.',
-    stats: [{n:'Edge AI',l:'on ESP32'},{n:'IoT Conf',l:'presenter'}],
-    chips: ['ESP32','SwiftUI','C++','ThingSpeak','Edge AI'],
-    bullets: [
-      'ESP32 microcontroller with edge AI for real-time motion classification',
-      'Heart rate + motion sensor fusion for wakefulness detection',
-      'SwiftUI iOS app for alarm management and physiological data',
-      'Selected to present at Warren B. Nelms Annual IoT Conference',
-    ]
-  },
-  {
-    eye: '04 — Full Stack · UF Real World Engineering',
-    title: 'Big & Little',
-    desc: 'Mobile-first mentor-mentee matching app using a Gale-Shapley mutual ranking algorithm achieving 80% match accuracy.',
-    stats: [{n:'80%',l:'match accuracy'},{n:'5+',l:'features/sprint'}],
-    chips: ['MongoDB','Express','React','Node.js','Expo Go','JWT'],
-    bullets: [
-      'MERN stack with JWT auth and MongoDB profile storage',
-      'Gale-Shapley multi-round mutual ranking algorithm',
-      '100% input validation accuracy across all form interactions',
-      '7-person Scrum team, 5+ features shipped per sprint',
-    ]
-  },
-];
+    document.getElementById('exp-section').addEventListener('mousemove', e => {
+      const r = expBg.getBoundingClientRect();
+      emxT = e.clientX - r.left;
+      emyT = e.clientY - r.top;
+    });
 
-let activeIdx = null;
-const detail = document.getElementById('detail');
+    window.addEventListener('resize', resizeExp);
+    setTimeout(resizeExp, 120);
 
-function openProject(idx) {
-  const p = PROJECTS[idx];
-  document.getElementById('d-eye').textContent = p.eye;
-  document.getElementById('d-title').textContent = p.title;
-  document.getElementById('d-desc').textContent = p.desc;
-  document.getElementById('d-stats').innerHTML =
-    p.stats.map(s => `<div><div class="d-stat-n">${s.n}</div><div class="d-stat-l">${s.l}</div></div>`).join('');
-  document.getElementById('d-chips').innerHTML =
-    p.chips.map(c => `<span class="d-chip">${c}</span>`).join('');
-  document.getElementById('d-bullets').innerHTML =
-    p.bullets.map(b => `<li class="d-bullet">${b}</li>`).join('');
+    function drawExp() {
+      ex.clearRect(0, 0, EW, EH);
+      emx += (emxT - emx) * 0.04;
+      emy += (emyT - emy) * 0.04;
 
-  document.querySelectorAll('.proj-thumb').forEach((t,i) => t.classList.toggle('active', i === idx));
+      ESTARS.forEach(s => {
+        s.phase += s.speed;
+        const dx  = s.x - emx, dy = s.y - emy;
+        const d   = Math.sqrt(dx*dx + dy*dy);
+        const inf = Math.max(0, 1 - d / (EW * 0.25));
+        const a   = Math.atan2(dy, dx);
+        s.ox += (Math.cos(a) * inf * 14 - s.ox) * 0.035;
+        s.oy += (Math.sin(a) * inf * 14 - s.oy) * 0.035;
+      });
 
-  if (activeIdx === idx) { closeDetail(); return; }
-  activeIdx = idx;
-  detail.classList.add('open');
-  setTimeout(() => detail.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 60);
-}
+      for (let i = 0; i < ESTARS.length; i++) {
+        for (let j = i + 1; j < ESTARS.length; j++) {
+          const a = ESTARS[i], b = ESTARS[j];
+          const ax = a.x + a.ox, ay = a.y + a.oy;
+          const bx = b.x + b.ox, by = b.y + b.oy;
+          const dx = ax - bx, dy = ay - by;
+          const d  = Math.sqrt(dx*dx + dy*dy);
+          if (d < 90) {
+            const ai = Math.max(0, 1 - Math.sqrt((a.x-emx)**2+(a.y-emy)**2) / (EW*0.25));
+            const bi = Math.max(0, 1 - Math.sqrt((b.x-emx)**2+(b.y-emy)**2) / (EW*0.25));
+            ex.beginPath();
+            ex.moveTo(ax, ay); ex.lineTo(bx, by);
+            ex.strokeStyle = `rgba(124,110,255,${(1 - d/90) * (0.09 + Math.max(ai,bi) * 0.28)})`;
+            ex.lineWidth = 0.5;
+            ex.stroke();
+          }
+        }
+      }
 
-function closeDetail() {
-  activeIdx = null;
-  detail.classList.remove('open');
-  document.querySelectorAll('.proj-thumb').forEach(t => t.classList.remove('active'));
-}
+      ESTARS.forEach(s => {
+        const px  = s.x + s.ox + Math.sin(s.phase) * 0.5;
+        const py  = s.y + s.oy + Math.cos(s.phase * 0.7) * 0.5;
+        const inf = Math.max(0, 1 - Math.sqrt((s.x-emx)**2+(s.y-emy)**2) / (EW*0.25));
+        ex.beginPath();
+        ex.arc(px, py, s.r + inf * 2, 0, Math.PI * 2);
+        ex.fillStyle = `rgba(200,190,255,${0.16 + inf * 0.58})`;
+        ex.fill();
+      });
 
-document.querySelectorAll('.proj-thumb').forEach(t =>
-  t.addEventListener('click', () => openProject(+t.dataset.idx))
-);
-document.getElementById('d-close').addEventListener('click', closeDetail);
-</script>
+      requestAnimationFrame(drawExp);
+    }
+    drawExp();
+
+    // ── PROJECT DATA ───────────────────────────────────────────
+    const PROJECTS = [
+      {
+        eye:     '01 — AI · UF Real World Engineering',
+        title:   'Smart Glasses',
+        desc:    'AI-powered smart glasses helping dementia patients through real-time face and voice recognition with personalized context recall.',
+        stats:   [{n:'RTF 0.8', l:'pipeline speed'}, {n:'Live', l:'diarization'}],
+        chips:   ['Ollama','OpenCV','WebSocket','Redimnet','Python','ROS2'],
+        bullets: [
+          'Real-time audio pipeline with WebSocket streaming and chunked event dispatch',
+          'Speaker diarization via Redimnet voice embeddings at RTF 0.8',
+          'Cross-modal identity system reconciling audio and vision embeddings',
+          'LLM context engine (Ollama) storing per-person memory profiles',
+        ]
+      },
+      {
+        eye:     '02 — LLM · Hackathon Project',
+        title:   'PermitPal',
+        desc:    'LLM-powered search engine recommending least-privilege RBAC bundles from Sailpoint. PII compliant with a local on-prem Ollama fallback.',
+        stats:   [{n:'10×', l:'latency reduction'}, {n:'2nd', l:'hackathon place'}],
+        chips:   ['Next.js','TypeScript','OpenAI','Ollama','Tailwind','Vercel'],
+        bullets: [
+          'LLM-powered RBAC bundle recommendations sourced from Sailpoint',
+          'Cut query latency 10× by routing hot path from local Ollama to OpenAI API',
+          'On-prem Ollama fallback mode preserving PII compliance in production',
+          'Presented MVP to the product owner of the onboarding experience',
+        ]
+      },
+      {
+        eye:     '03 — IoT · Embedded Systems',
+        title:   'BioClock',
+        desc:    'Wearable IoT alarm clock that eliminates snooze by detecting wakefulness through motion and heart rate. Edge AI runs fully on-device.',
+        stats:   [{n:'Edge AI', l:'on ESP32'}, {n:'IoT Conf', l:'presenter'}],
+        chips:   ['ESP32','SwiftUI','C++','ThingSpeak','Edge AI'],
+        bullets: [
+          'ESP32 microcontroller programmed with edge AI for real-time motion classification',
+          'Heart rate + motion sensor fusion for wakefulness detection',
+          'SwiftUI iOS app for alarm management and physiological data display',
+          'Selected to present at Warren B. Nelms Annual IoT Conference',
+        ]
+      },
+      {
+        eye:     '04 — Full Stack · UF Real World Engineering',
+        title:   'Big & Little',
+        desc:    'Mobile-first mentor-mentee matching app for UF clubs using a Gale-Shapley mutual ranking algorithm with 80% match accuracy.',
+        stats:   [{n:'80%', l:'match accuracy'}, {n:'5+', l:'features/sprint'}],
+        chips:   ['MongoDB','Express','React','Node.js','Expo Go','JWT'],
+        bullets: [
+          'MERN stack mobile-first app with JWT authentication and MongoDB profile storage',
+          'Gale-Shapley inspired multi-round mutual ranking for mentor-mentee pairing',
+          '100% input validation accuracy across all form interactions',
+          '7-person Scrum team delivering 5+ features per sprint',
+        ]
+      },
+    ];
+
+    // ── DRAWER ─────────────────────────────────────────────────
+    let activeIdx = null;
+    const detail = document.getElementById('detail');
+
+    function openProject(idx) {
+      const p = PROJECTS[idx];
+      document.getElementById('d-eye').textContent   = p.eye;
+      document.getElementById('d-title').textContent = p.title;
+      document.getElementById('d-desc').textContent  = p.desc;
+      document.getElementById('d-stats').innerHTML   = p.stats.map(s =>
+        `<div><div class="d-stat-n">${s.n}</div><div class="d-stat-l">${s.l}</div></div>`
+      ).join('');
+      document.getElementById('d-chips').innerHTML   = p.chips.map(c =>
+        `<span class="d-chip">${c}</span>`
+      ).join('');
+      document.getElementById('d-bullets').innerHTML = p.bullets.map(b =>
+        `<li class="d-bullet">${b}</li>`
+      ).join('');
+
+      document.querySelectorAll('.proj-thumb').forEach((t, i) =>
+        t.classList.toggle('active', i === idx)
+      );
+
+      if (activeIdx === idx) { closeDetail(); return; }
+      activeIdx = idx;
+      detail.classList.add('open');
+      setTimeout(() => detail.scrollIntoView({behavior:'smooth', block:'nearest'}), 60);
+    }
+
+    function closeDetail() {
+      activeIdx = null;
+      detail.classList.remove('open');
+      document.querySelectorAll('.proj-thumb').forEach(t => t.classList.remove('active'));
+    }
+
+    document.querySelectorAll('.proj-thumb').forEach(t =>
+      t.addEventListener('click', () => openProject(+t.dataset.idx))
+    );
+    document.getElementById('d-close').addEventListener('click', closeDetail);
+  </script>
 </body>
 </html>
