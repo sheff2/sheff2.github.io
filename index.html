@@ -4,17 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Shaun Heffernan</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzMiAzMiI+CiAgPHJlY3Qgd2lkdGg9IjMyIiBoZWlnaHQ9IjMyIiByeD0iOCIgZmlsbD0iIzFhMWEyNiIvPgogIDxsaW5lIHgxPSIxNiIgeTE9IjE2IiB4Mj0iMTYiIHkyPSI0IiAgc3Ryb2tlPSIjN0M2RUZGIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjE2IiB5MT0iMTYiIHgyPSIxNiIgeTI9IjI4IiBzdHJva2U9IiM3QzZFRkYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTYiIHkxPSIxNiIgeDI9IjQiICB5Mj0iMTAiIHN0cm9rZT0iIzdDNkVGRiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxsaW5lIHgxPSIxNiIgeTE9IjE2IiB4Mj0iMjgiIHkyPSIyMiIgc3Ryb2tlPSIjN0M2RUZGIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPGxpbmUgeDE9IjE2IiB5MT0iMTYiIHgyPSI0IiAgeTI9IjIyIiBzdHJva2U9IiM3QzZFRkYiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8bGluZSB4MT0iMTYiIHkxPSIxNiIgeDI9IjI4IiB5Mj0iMTAiIHN0cm9rZT0iIzdDNkVGRiIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iNCIgIHI9IjIiIGZpbGw9IiNhODlmZmYiLz4KICA8Y2lyY2xlIGN4PSIxNiIgY3k9IjI4IiByPSIyIiBmaWxsPSIjYTg5ZmZmIi8+CiAgPGNpcmNsZSBjeD0iNCIgIGN5PSIxMCIgcj0iMiIgZmlsbD0iI2E4OWZmZiIvPgogIDxjaXJjbGUgY3g9IjI4IiBjeT0iMjIiIHI9IjIiIGZpbGw9IiNhODlmZmYiLz4KICA8Y2lyY2xlIGN4PSI0IiAgY3k9IjIyIiByPSIyIiBmaWxsPSIjYTg5ZmZmIi8+CiAgPGNpcmNsZSBjeD0iMjgiIGN5PSIxMCIgcj0iMiIgZmlsbD0iI2E4OWZmZiIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjMuNSIgZmlsbD0iIzdDNkVGRiIvPgogIDxjaXJjbGUgY3g9IjE2IiBjeT0iMTYiIHI9IjIiICAgZmlsbD0iI2M0YmNmZiIvPgo8L3N2Zz4="/>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
       --accent: #7C6EFF;
-      --accent-dim: rgba(124,110,255,0.3);
       --bg: #1a1a26;
       --bg-deep: #16161f;
       --text-primary: #EEEEF8;
-      --text-muted: rgba(255,255,255,0.38);
-      --text-faint: rgba(255,255,255,0.18);
       --border: rgba(255,255,255,0.09);
     }
 
@@ -28,241 +26,155 @@
       overflow-x: hidden;
     }
 
-    /* ── NAV ── */
+    /* NAV */
     nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      padding: 22px 64px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      padding: 24px 64px;
+      display: flex; justify-content: space-between; align-items: center;
       border-bottom: 0.5px solid transparent;
       transition: border-color 0.3s, background 0.3s;
     }
     nav.scrolled {
-      background: rgba(26,26,38,0.88);
+      background: rgba(26,26,38,0.90);
       backdrop-filter: blur(12px);
       border-color: var(--border);
     }
-    .nav-name { font-size: 13px; color: rgba(255,255,255,0.44); letter-spacing: 0.3px; }
+    .nav-name { font-size: 15px; color: rgba(255,255,255,0.55); letter-spacing: 0.2px; }
     .nav-links { display: flex; gap: 32px; }
     .nav-links a {
-      font-size: 12px;
-      color: rgba(255,255,255,0.32);
-      text-decoration: none;
-      letter-spacing: 0.3px;
-      transition: color 0.2s;
+      font-size: 14px; color: rgba(255,255,255,0.45);
+      text-decoration: none; transition: color 0.2s;
     }
-    .nav-links a:hover { color: rgba(255,255,255,0.8); }
+    .nav-links a:hover { color: rgba(255,255,255,0.9); }
 
-    /* ── HERO ── */
+    /* HERO */
     #hero {
-      position: relative;
-      height: 100vh;
-      min-height: 700px;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 0 64px 52px;
+      position: relative; height: 100vh; min-height: 700px;
+      overflow: hidden; display: flex; flex-direction: column;
+      justify-content: space-between; padding: 0 64px 52px;
     }
-    #heroBg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-    }
+    #heroBg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; }
     .hero-content {
-      position: relative;
-      z-index: 2;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      flex: 1;
-      padding-top: 100px;
+      position: relative; z-index: 2;
+      display: flex; flex-direction: column; justify-content: center;
+      flex: 1; padding-top: 110px;
     }
     .hero-loc {
-      font-size: 11px;
-      letter-spacing: 3.5px;
-      color: rgba(255,255,255,0.32);
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
+      font-size: 13px; letter-spacing: 3px; color: rgba(255,255,255,0.4);
+      margin-bottom: 28px; display: flex; align-items: center; gap: 12px;
     }
     .hero-loc::before {
-      content: '';
-      display: block;
-      width: 28px;
-      height: 0.5px;
-      background: rgba(255,255,255,0.2);
+      content: ''; display: block; width: 28px; height: 0.5px; background: rgba(255,255,255,0.3);
     }
     .hero-name {
-      font-size: clamp(72px, 8vw, 110px);
-      font-weight: 500;
-      letter-spacing: -4px;
-      line-height: 0.92;
-      font-family: Georgia, 'Times New Roman', serif;
-      margin-bottom: 32px;
+      font-size: clamp(72px, 8vw, 112px); font-weight: 500;
+      letter-spacing: -4px; line-height: 0.92;
+      font-family: Georgia, 'Times New Roman', serif; margin-bottom: 28px;
     }
     .hero-name .first { color: var(--text-primary); }
     .hero-name .last  { color: var(--accent); }
     .hero-bio {
-      max-width: 380px;
-      font-size: 14px;
-      color: rgba(255,255,255,0.52);
-      line-height: 1.85;
-      border-left: 0.5px solid rgba(124,110,255,0.35);
+      max-width: 400px; font-size: 15px; color: rgba(255,255,255,0.55);
+      line-height: 1.85; border-left: 0.5px solid rgba(124,110,255,0.4);
       padding-left: 18px;
     }
 
-    /* ── PROJECT STRIP ── */
+    /* PROJECT STRIP */
     .proj-strip {
-      position: relative;
-      z-index: 2;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      border-top: 0.5px solid rgba(255,255,255,0.11);
-      padding-top: 28px;
+      position: relative; z-index: 2;
+      display: grid; grid-template-columns: repeat(5, 1fr);
+      border-top: 0.5px solid rgba(255,255,255,0.11); padding-top: 28px;
     }
     .proj-thumb {
-      padding-right: 24px;
-      border-right: 0.5px solid rgba(255,255,255,0.14);
-      cursor: pointer;
-      user-select: none;
+      padding-right: 20px; border-right: 0.5px solid rgba(255,255,255,0.09);
+      cursor: pointer; user-select: none;
     }
-    .proj-thumb:not(:first-child) { padding-left: 24px; }
+    .proj-thumb:not(:first-child) { padding-left: 20px; }
     .proj-thumb:last-child { border-right: none; padding-right: 0; }
-    .proj-num  { font-size: 9px; letter-spacing: 2.5px; color: rgba(255,255,255,0.26); margin-bottom: 9px; }
-    .proj-name { font-size: 14px; font-weight: 500; color: #C8C8E8; margin-bottom: 4px; transition: color 0.2s; }
-    .proj-tech { font-size: 11px; color: rgba(255,255,255,0.36); line-height: 1.5; transition: color 0.2s; }
-    .proj-bar  { height: 1px; background: var(--accent); margin-top: 11px; width: 0; transition: width 0.38s ease; }
-    .proj-thumb:hover .proj-bar,
-    .proj-thumb.active .proj-bar  { width: 100%; }
-    .proj-thumb:hover .proj-name,
-    .proj-thumb.active .proj-name { color: #fff; }
-    .proj-thumb:hover .proj-tech  { color: rgba(124,110,255,0.7); }
+    .proj-num  { font-size: 11px; letter-spacing: 2px; color: rgba(255,255,255,0.35); margin-bottom: 8px; }
+    .proj-name { font-size: 15px; font-weight: 500; color: #C8C8E8; margin-bottom: 5px; transition: color 0.2s; }
+    .proj-tech { font-size: 12px; color: rgba(255,255,255,0.4); line-height: 1.5; transition: color 0.2s; }
+    .proj-bar  { height: 1px; background: var(--accent); margin-top: 12px; width: 0; transition: width 0.38s ease; }
+    .proj-thumb:hover .proj-bar, .proj-thumb.active .proj-bar { width: 100%; }
+    .proj-thumb:hover .proj-name, .proj-thumb.active .proj-name { color: #fff; }
+    .proj-thumb:hover .proj-tech { color: rgba(124,110,255,0.75); }
 
-    /* ── DETAIL DRAWER ── */
+    /* DETAIL DRAWER */
     #detail {
-      max-height: 0;
-      overflow: hidden;
+      max-height: 0; overflow: hidden;
       transition: max-height 0.6s cubic-bezier(0.16,1,0.3,1);
-      background: var(--bg-deep);
-      border-bottom: 0.5px solid var(--border);
+      background: var(--bg-deep); border-bottom: 0.5px solid var(--border);
     }
-    #detail.open { max-height: 600px; }
+    #detail.open { max-height: 620px; }
     .detail-inner {
       padding: 56px 64px 60px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
+      display: grid; grid-template-columns: 1fr 1fr; gap: 64px;
     }
-    .d-eyebrow { font-size: 10px; letter-spacing: 3px; color: rgba(124,110,255,0.6); margin-bottom: 18px; }
+    .d-eyebrow { font-size: 12px; letter-spacing: 3px; color: rgba(124,110,255,0.7); margin-bottom: 16px; }
     .d-title {
-      font-size: 42px;
-      font-weight: 500;
-      color: var(--text-primary);
-      letter-spacing: -1.8px;
-      line-height: 1;
-      margin-bottom: 22px;
+      font-size: 44px; font-weight: 500; color: var(--text-primary);
+      letter-spacing: -1.8px; line-height: 1; margin-bottom: 20px;
       font-family: Georgia, 'Times New Roman', serif;
     }
-    .d-desc { font-size: 14px; color: rgba(255,255,255,0.55); line-height: 1.9; margin-bottom: 28px; }
+    .d-desc { font-size: 15px; color: rgba(255,255,255,0.58); line-height: 1.9; margin-bottom: 26px; }
     .d-stats { display: flex; gap: 36px; }
     .d-stat-n { font-size: 26px; font-weight: 500; color: var(--accent); letter-spacing: -1px; }
-    .d-stat-l { font-size: 10px; color: rgba(255,255,255,0.4); margin-top: 3px; letter-spacing: 1px; }
-    .d-stack-label { font-size: 10px; letter-spacing: 3px; color: rgba(255,255,255,0.26); margin-bottom: 14px; }
-    .d-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-    .d-chip {
-      font-size: 12px; color: #9D90FF;
-      border: 0.5px solid rgba(124,110,255,0.35);
-      padding: 6px 14px; border-radius: 4px;
-    }
+    .d-stat-l { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 3px; letter-spacing: 1px; }
+    .d-stack-label { font-size: 11px; letter-spacing: 3px; color: rgba(255,255,255,0.3); margin-bottom: 14px; }
+    .d-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 24px; }
+    .d-chip { font-size: 13px; color: #9D90FF; border: 0.5px solid rgba(124,110,255,0.4); padding: 6px 14px; border-radius: 4px; }
     .d-bullets { list-style: none; }
     .d-bullet {
-      font-size: 13px; color: rgba(255,255,255,0.55);
-      padding: 10px 0; border-bottom: 0.5px solid rgba(255,255,255,0.09);
-      line-height: 1.65; display: flex; gap: 12px;
+      font-size: 13px; color: rgba(255,255,255,0.5); padding: 10px 0;
+      border-bottom: 0.5px solid rgba(255,255,255,0.07); line-height: 1.65; display: flex; gap: 12px;
     }
-    .d-bullet::before { content: '—'; color: rgba(124,110,255,0.4); flex-shrink: 0; }
+    .d-bullet::before { content: '—'; color: rgba(124,110,255,0.45); flex-shrink: 0; }
     .d-bullet:last-child { border-bottom: none; }
     .d-close {
-      margin-top: 24px; font-size: 11px; letter-spacing: 2px;
-      color: rgba(255,255,255,0.32); cursor: pointer;
-      display: inline-flex; align-items: center; gap: 9px;
-      transition: color 0.2s;
+      margin-top: 22px; font-size: 12px; letter-spacing: 2px;
+      color: rgba(255,255,255,0.35); cursor: pointer;
+      display: inline-flex; align-items: center; gap: 9px; transition: color 0.2s;
     }
-    .d-close:hover { color: rgba(255,255,255,0.6); }
+    .d-close:hover { color: rgba(255,255,255,0.7); }
     .d-close svg path { stroke: currentColor; }
 
-    /* ── EXPERIENCE ── */
-    #exp-section {
-      position: relative;
-      border-top: 0.5px solid var(--border);
-      overflow: hidden;
-    }
-    #expBg {
-      position: absolute;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      pointer-events: none;
-      display: block;
-    }
-    .exp-inner {
-      position: relative;
-      z-index: 2;
-      padding: 72px 64px 80px;
-    }
-    .sec-label {
-      font-size: 10px;
-      letter-spacing: 4px;
-      color: rgba(255,255,255,0.26);
-      margin-bottom: 48px;
-    }
+    /* EXPERIENCE */
+    #exp-section { position: relative; border-top: 0.5px solid var(--border); overflow: hidden; }
+    #expBg { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; display: block; }
+    .exp-inner { position: relative; z-index: 2; padding: 72px 64px 80px; }
+    .sec-label { font-size: 12px; letter-spacing: 4px; color: rgba(255,255,255,0.35); margin-bottom: 48px; }
     .exp-list { display: flex; flex-direction: column; }
     .exp-row {
-      display: grid;
-      grid-template-columns: 220px 1fr 120px;
-      align-items: center;
-      padding: 26px 0;
-      border-bottom: 0.5px solid rgba(255,255,255,0.09);
+      display: grid; grid-template-columns: 230px 1fr 130px;
+      align-items: center; padding: 28px 0;
+      border-bottom: 0.5px solid rgba(255,255,255,0.08);
     }
     .exp-row:last-child { border-bottom: none; }
-    .exp-date  { font-size: 11px; color: rgba(255,255,255,0.55); letter-spacing: 0.5px; margin-bottom: 6px; }
-    .exp-co    { font-size: 15px; font-weight: 500; color: #D0D0EE; }
-    .exp-role  { font-size: 12px; color: rgba(124,110,255,0.55); margin-top: 4px; }
-    .exp-tags  { display: flex; flex-wrap: wrap; gap: 6px; padding-left: 36px; }
+    .exp-date { font-size: 12px; color: rgba(255,255,255,0.45); letter-spacing: 0.3px; margin-bottom: 6px; }
+    .exp-co   { font-size: 17px; font-weight: 500; color: #D8D8F0; }
+    .exp-role { font-size: 13px; color: rgba(124,110,255,0.65); margin-top: 4px; }
+    .exp-tags { display: flex; flex-wrap: wrap; gap: 7px; padding-left: 32px; }
     .exp-tag {
-      font-size: 11px; color: rgba(255,255,255,0.4);
-      border: 0.5px solid rgba(255,255,255,0.14);
-      padding: 4px 10px; border-radius: 2px;
-      letter-spacing: 0.3px; transition: all 0.2s; cursor: default;
+      font-size: 12px; color: rgba(255,255,255,0.5);
+      border: 0.5px solid rgba(255,255,255,0.15);
+      padding: 5px 12px; border-radius: 2px; transition: all 0.2s; cursor: default;
     }
-    .exp-tag:hover { color: #9D90FF; border-color: rgba(124,110,255,0.45); }
-    .exp-loc { font-size: 11px; color: rgba(255,255,255,0.36); text-align: right; }
+    .exp-tag:hover { color: #9D90FF; border-color: rgba(124,110,255,0.5); }
+    .exp-loc { font-size: 12px; color: rgba(255,255,255,0.3); text-align: right; }
 
-    /* ── FOOTER ── */
+    /* FOOTER */
     footer {
-      padding: 28px 64px;
-      border-top: 0.5px solid var(--border);
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      padding: 28px 64px; border-top: 0.5px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
     }
-    .footer-l { font-size: 12px; color: rgba(255,255,255,0.26); }
+    .footer-l { font-size: 13px; color: rgba(255,255,255,0.3); }
     .footer-r { display: flex; gap: 28px; }
-    .footer-r a {
-      font-size: 12px; color: rgba(255,255,255,0.32);
-      text-decoration: none; transition: color 0.2s;
-    }
+    .footer-r a { font-size: 13px; color: rgba(255,255,255,0.35); text-decoration: none; transition: color 0.2s; }
     .footer-r a:hover { color: var(--accent); }
   </style>
 </head>
 <body>
 
-  <!-- NAV -->
   <nav id="navbar">
     <div class="nav-name">Shaun Heffernan</div>
     <div class="nav-links">
@@ -271,7 +183,6 @@
     </div>
   </nav>
 
-  <!-- HERO -->
   <section id="hero">
     <canvas id="heroBg"></canvas>
     <div class="hero-content">
@@ -310,10 +221,15 @@
         <div class="proj-tech">MERN · Expo Go · MongoDB</div>
         <div class="proj-bar"></div>
       </div>
+      <div class="proj-thumb" data-idx="4">
+        <div class="proj-num">05 — ML</div>
+        <div class="proj-name">NYC Taxi ML</div>
+        <div class="proj-tech">Python · Lasso · Linear Reg</div>
+        <div class="proj-bar"></div>
+      </div>
     </div>
   </section>
 
-  <!-- PROJECT DETAIL DRAWER -->
   <div id="detail">
     <div class="detail-inner">
       <div>
@@ -338,7 +254,6 @@
     </div>
   </div>
 
-  <!-- EXPERIENCE -->
   <section id="exp-section">
     <canvas id="expBg"></canvas>
     <div class="exp-inner">
@@ -398,9 +313,8 @@
     </div>
   </section>
 
-  <!-- FOOTER -->
   <footer>
-    <div class="footer-l">heffernanshaun2@gmail.com &nbsp;·&nbsp; 973-652-1463</div>
+    <div class="footer-l">heffernanshaun2@gmail.com</div>
     <div class="footer-r">
       <a href="https://github.com/sheff2" target="_blank">github.com/sheff2</a>
       <a href="https://www.linkedin.com/in/shaunheff/" target="_blank">linkedin.com/in/shaunheff</a>
@@ -408,186 +322,128 @@
   </footer>
 
   <script>
-    // ── NAV SCROLL EFFECT ──────────────────────────────────────
     window.addEventListener('scroll', () => {
       document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 40);
     });
 
-    // ── HERO CONSTELLATION ─────────────────────────────────────
+    // HERO CONSTELLATION
     const heroBg = document.getElementById('heroBg');
     const hx = heroBg.getContext('2d');
     let HW, HH;
 
+    const HSTARS = Array.from({length: 130}, () => ({
+      x: 0, y: 0, r: 0.6 + Math.random() * 1.4,
+      phase: Math.random() * Math.PI * 2, speed: 0.002 + Math.random() * 0.005, ox: 0, oy: 0
+    }));
+    let hmx = 0, hmy = 0, hmxT = 0, hmyT = 0;
+
     function resizeHero() {
       HW = heroBg.width  = heroBg.offsetWidth  || window.innerWidth;
       HH = heroBg.height = heroBg.offsetHeight || window.innerHeight;
-      HSTARS.forEach(s => {
-        s.x = Math.random() * HW;
-        s.y = Math.random() * HH;
-        s.ox = 0; s.oy = 0;
-      });
-      hmx = HW * 0.65; hmy = HH * 0.35;
-      hmxT = hmx; hmyT = hmy;
+      HSTARS.forEach(s => { s.x = Math.random()*HW; s.y = Math.random()*HH; s.ox=0; s.oy=0; });
+      hmx = HW*0.65; hmy = HH*0.35; hmxT = hmx; hmyT = hmy;
     }
 
-    const HSTARS = Array.from({length: 130}, () => ({
-      x: 0, y: 0,
-      r: 0.6 + Math.random() * 1.4,
-      phase: Math.random() * Math.PI * 2,
-      speed: 0.002 + Math.random() * 0.005,
-      ox: 0, oy: 0
-    }));
-
-    let hmx = 0, hmy = 0, hmxT = 0, hmyT = 0;
-
-    document.getElementById('hero').addEventListener('mousemove', e => {
-      hmxT = e.clientX;
-      hmyT = e.clientY;
-    });
-
+    document.getElementById('hero').addEventListener('mousemove', e => { hmxT = e.clientX; hmyT = e.clientY; });
     window.addEventListener('resize', resizeHero);
     resizeHero();
 
     function drawHero() {
       hx.clearRect(0, 0, HW, HH);
-      hmx += (hmxT - hmx) * 0.04;
-      hmy += (hmyT - hmy) * 0.04;
-
+      hmx += (hmxT-hmx)*0.04; hmy += (hmyT-hmy)*0.04;
       HSTARS.forEach(s => {
         s.phase += s.speed;
-        const dx = s.x - hmx, dy = s.y - hmy;
-        const d  = Math.sqrt(dx*dx + dy*dy);
-        const inf = Math.max(0, 1 - d / (HW * 0.28));
-        const a  = Math.atan2(dy, dx);
-        s.ox += (Math.cos(a) * inf * 18 - s.ox) * 0.035;
-        s.oy += (Math.sin(a) * inf * 18 - s.oy) * 0.035;
+        const dx=s.x-hmx, dy=s.y-hmy, d=Math.sqrt(dx*dx+dy*dy);
+        const inf=Math.max(0,1-d/(HW*0.28)), a=Math.atan2(dy,dx);
+        s.ox += (Math.cos(a)*inf*18-s.ox)*0.035;
+        s.oy += (Math.sin(a)*inf*18-s.oy)*0.035;
       });
-
-      for (let i = 0; i < HSTARS.length; i++) {
-        for (let j = i + 1; j < HSTARS.length; j++) {
-          const a = HSTARS[i], b = HSTARS[j];
-          const ax = a.x + a.ox, ay = a.y + a.oy;
-          const bx = b.x + b.ox, by = b.y + b.oy;
-          const dx = ax - bx, dy = ay - by;
-          const d  = Math.sqrt(dx*dx + dy*dy);
-          if (d < 100) {
-            const ai = Math.max(0, 1 - Math.sqrt((a.x-hmx)**2+(a.y-hmy)**2) / (HW*0.28));
-            const bi = Math.max(0, 1 - Math.sqrt((b.x-hmx)**2+(b.y-hmy)**2) / (HW*0.28));
-            hx.beginPath();
-            hx.moveTo(ax, ay); hx.lineTo(bx, by);
-            hx.strokeStyle = `rgba(124,110,255,${(1 - d/100) * (0.1 + Math.max(ai,bi) * 0.35)})`;
-            hx.lineWidth = 0.5;
-            hx.stroke();
-          }
+      for (let i=0;i<HSTARS.length;i++) for (let j=i+1;j<HSTARS.length;j++) {
+        const a=HSTARS[i],b=HSTARS[j];
+        const ax=a.x+a.ox,ay=a.y+a.oy,bx=b.x+b.ox,by=b.y+b.oy;
+        const dx=ax-bx,dy=ay-by,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<100){
+          const ai=Math.max(0,1-Math.sqrt((a.x-hmx)**2+(a.y-hmy)**2)/(HW*0.28));
+          const bi=Math.max(0,1-Math.sqrt((b.x-hmx)**2+(b.y-hmy)**2)/(HW*0.28));
+          hx.beginPath(); hx.moveTo(ax,ay); hx.lineTo(bx,by);
+          hx.strokeStyle=`rgba(124,110,255,${(1-d/100)*(0.1+Math.max(ai,bi)*0.35)})`;
+          hx.lineWidth=0.5; hx.stroke();
         }
       }
-
       HSTARS.forEach(s => {
-        const px  = s.x + s.ox + Math.sin(s.phase) * 0.8;
-        const py  = s.y + s.oy + Math.cos(s.phase * 0.7) * 0.8;
-        const inf = Math.max(0, 1 - Math.sqrt((s.x-hmx)**2+(s.y-hmy)**2) / (HW*0.28));
-        hx.beginPath();
-        hx.arc(px, py, s.r + inf * 2.2, 0, Math.PI * 2);
-        hx.fillStyle = `rgba(200,190,255,${0.22 + inf * 0.78})`;
-        hx.fill();
+        const px=s.x+s.ox+Math.sin(s.phase)*0.8, py=s.y+s.oy+Math.cos(s.phase*0.7)*0.8;
+        const inf=Math.max(0,1-Math.sqrt((s.x-hmx)**2+(s.y-hmy)**2)/(HW*0.28));
+        hx.beginPath(); hx.arc(px,py,s.r+inf*2.2,0,Math.PI*2);
+        hx.fillStyle=`rgba(200,190,255,${0.22+inf*0.78})`; hx.fill();
       });
-
       requestAnimationFrame(drawHero);
     }
     drawHero();
 
-    // ── EXP CONSTELLATION ──────────────────────────────────────
-    const expBg  = document.getElementById('expBg');
-    const ex     = expBg.getContext('2d');
-    let EW, EH;
-    let emx = 0, emy = 0, emxT = 0, emyT = 0;
+    // EXP CONSTELLATION
+    const expBg = document.getElementById('expBg');
+    const ex = expBg.getContext('2d');
+    let EW, EH, emx=0, emy=0, emxT=0, emyT=0;
 
-    const ESTARS = Array.from({length: 80}, () => ({
-      x: 0, y: 0,
-      r: 0.5 + Math.random() * 1.2,
-      phase: Math.random() * Math.PI * 2,
-      speed: 0.002 + Math.random() * 0.004,
-      ox: 0, oy: 0
+    const ESTARS = Array.from({length:80}, () => ({
+      x:0, y:0, r:0.5+Math.random()*1.2,
+      phase:Math.random()*Math.PI*2, speed:0.002+Math.random()*0.004, ox:0, oy:0
     }));
 
     function resizeExp() {
       const sect = document.getElementById('exp-section');
-      EW = expBg.width  = sect.offsetWidth;
+      EW = expBg.width = sect.offsetWidth;
       EH = expBg.height = sect.offsetHeight;
-      ESTARS.forEach(s => {
-        s.x = Math.random() * EW;
-        s.y = Math.random() * EH;
-        s.ox = 0; s.oy = 0;
-      });
-      emx = EW * 0.75; emy = EH * 0.5;
-      emxT = emx; emyT = emy;
+      ESTARS.forEach(s => { s.x=Math.random()*EW; s.y=Math.random()*EH; s.ox=0; s.oy=0; });
+      emx=EW*0.75; emy=EH*0.5; emxT=emx; emyT=emy;
     }
 
     document.getElementById('exp-section').addEventListener('mousemove', e => {
-      const r = expBg.getBoundingClientRect();
-      emxT = e.clientX - r.left;
-      emyT = e.clientY - r.top;
+      const r=expBg.getBoundingClientRect(); emxT=e.clientX-r.left; emyT=e.clientY-r.top;
     });
-
     window.addEventListener('resize', resizeExp);
     setTimeout(resizeExp, 120);
 
     function drawExp() {
-      ex.clearRect(0, 0, EW, EH);
-      emx += (emxT - emx) * 0.04;
-      emy += (emyT - emy) * 0.04;
-
+      ex.clearRect(0,0,EW,EH);
+      emx+=(emxT-emx)*0.04; emy+=(emyT-emy)*0.04;
       ESTARS.forEach(s => {
-        s.phase += s.speed;
-        const dx  = s.x - emx, dy = s.y - emy;
-        const d   = Math.sqrt(dx*dx + dy*dy);
-        const inf = Math.max(0, 1 - d / (EW * 0.25));
-        const a   = Math.atan2(dy, dx);
-        s.ox += (Math.cos(a) * inf * 14 - s.ox) * 0.035;
-        s.oy += (Math.sin(a) * inf * 14 - s.oy) * 0.035;
+        s.phase+=s.speed;
+        const dx=s.x-emx,dy=s.y-emy,d=Math.sqrt(dx*dx+dy*dy);
+        const inf=Math.max(0,1-d/(EW*0.25)),a=Math.atan2(dy,dx);
+        s.ox+=(Math.cos(a)*inf*14-s.ox)*0.035;
+        s.oy+=(Math.sin(a)*inf*14-s.oy)*0.035;
       });
-
-      for (let i = 0; i < ESTARS.length; i++) {
-        for (let j = i + 1; j < ESTARS.length; j++) {
-          const a = ESTARS[i], b = ESTARS[j];
-          const ax = a.x + a.ox, ay = a.y + a.oy;
-          const bx = b.x + b.ox, by = b.y + b.oy;
-          const dx = ax - bx, dy = ay - by;
-          const d  = Math.sqrt(dx*dx + dy*dy);
-          if (d < 90) {
-            const ai = Math.max(0, 1 - Math.sqrt((a.x-emx)**2+(a.y-emy)**2) / (EW*0.25));
-            const bi = Math.max(0, 1 - Math.sqrt((b.x-emx)**2+(b.y-emy)**2) / (EW*0.25));
-            ex.beginPath();
-            ex.moveTo(ax, ay); ex.lineTo(bx, by);
-            ex.strokeStyle = `rgba(124,110,255,${(1 - d/90) * (0.09 + Math.max(ai,bi) * 0.28)})`;
-            ex.lineWidth = 0.5;
-            ex.stroke();
-          }
+      for(let i=0;i<ESTARS.length;i++) for(let j=i+1;j<ESTARS.length;j++){
+        const a=ESTARS[i],b=ESTARS[j];
+        const ax=a.x+a.ox,ay=a.y+a.oy,bx=b.x+b.ox,by=b.y+b.oy;
+        const dx=ax-bx,dy=ay-by,d=Math.sqrt(dx*dx+dy*dy);
+        if(d<90){
+          const ai=Math.max(0,1-Math.sqrt((a.x-emx)**2+(a.y-emy)**2)/(EW*0.25));
+          const bi=Math.max(0,1-Math.sqrt((b.x-emx)**2+(b.y-emy)**2)/(EW*0.25));
+          ex.beginPath(); ex.moveTo(ax,ay); ex.lineTo(bx,by);
+          ex.strokeStyle=`rgba(124,110,255,${(1-d/90)*(0.09+Math.max(ai,bi)*0.28)})`;
+          ex.lineWidth=0.5; ex.stroke();
         }
       }
-
       ESTARS.forEach(s => {
-        const px  = s.x + s.ox + Math.sin(s.phase) * 0.5;
-        const py  = s.y + s.oy + Math.cos(s.phase * 0.7) * 0.5;
-        const inf = Math.max(0, 1 - Math.sqrt((s.x-emx)**2+(s.y-emy)**2) / (EW*0.25));
-        ex.beginPath();
-        ex.arc(px, py, s.r + inf * 2, 0, Math.PI * 2);
-        ex.fillStyle = `rgba(200,190,255,${0.16 + inf * 0.58})`;
-        ex.fill();
+        const px=s.x+s.ox+Math.sin(s.phase)*0.5, py=s.y+s.oy+Math.cos(s.phase*0.7)*0.5;
+        const inf=Math.max(0,1-Math.sqrt((s.x-emx)**2+(s.y-emy)**2)/(EW*0.25));
+        ex.beginPath(); ex.arc(px,py,s.r+inf*2,0,Math.PI*2);
+        ex.fillStyle=`rgba(200,190,255,${0.16+inf*0.58})`; ex.fill();
       });
-
       requestAnimationFrame(drawExp);
     }
     drawExp();
 
-    // ── PROJECT DATA ───────────────────────────────────────────
+    // PROJECT DATA
     const PROJECTS = [
       {
-        eye:     '01 — AI · UF Real World Engineering',
-        title:   'Smart Glasses',
-        desc:    'AI-powered smart glasses helping dementia patients through real-time face and voice recognition with personalized context recall.',
-        stats:   [{n:'RTF 0.8', l:'pipeline speed'}, {n:'Live', l:'diarization'}],
-        chips:   ['Ollama','OpenCV','WebSocket','Redimnet','Python','ROS2'],
+        eye: '01 — AI · UF Real World Engineering',
+        title: 'Smart Glasses',
+        desc: 'AI-powered smart glasses helping dementia patients through real-time face and voice recognition with personalized context recall.',
+        stats: [{n:'RTF 0.8',l:'pipeline speed'},{n:'Live',l:'diarization'}],
+        chips: ['Ollama','OpenCV','WebSocket','Redimnet','Python','ROS2'],
         bullets: [
           'Real-time audio pipeline with WebSocket streaming and chunked event dispatch',
           'Speaker diarization via Redimnet voice embeddings at RTF 0.8',
@@ -596,11 +452,11 @@
         ]
       },
       {
-        eye:     '02 — LLM · Hackathon Project',
-        title:   'PermitPal',
-        desc:    'LLM-powered search engine recommending least-privilege RBAC bundles from Sailpoint. PII compliant with a local on-prem Ollama fallback.',
-        stats:   [{n:'10×', l:'latency reduction'}, {n:'2nd', l:'hackathon place'}],
-        chips:   ['Next.js','TypeScript','OpenAI','Ollama','Tailwind','Vercel'],
+        eye: '02 — LLM · Hackathon Project',
+        title: 'PermitPal',
+        desc: 'LLM-powered search engine recommending least-privilege RBAC bundles from Sailpoint. PII compliant with a local on-prem Ollama fallback.',
+        stats: [{n:'10×',l:'latency reduction'},{n:'2nd',l:'hackathon place'}],
+        chips: ['Next.js','TypeScript','OpenAI','Ollama','Tailwind','Vercel'],
         bullets: [
           'LLM-powered RBAC bundle recommendations sourced from Sailpoint',
           'Cut query latency 10× by routing hot path from local Ollama to OpenAI API',
@@ -609,11 +465,11 @@
         ]
       },
       {
-        eye:     '03 — IoT · Embedded Systems',
-        title:   'BioClock',
-        desc:    'Wearable IoT alarm clock that eliminates snooze by detecting wakefulness through motion and heart rate. Edge AI runs fully on-device.',
-        stats:   [{n:'Edge AI', l:'on ESP32'}, {n:'IoT Conf', l:'presenter'}],
-        chips:   ['ESP32','SwiftUI','C++','ThingSpeak','Edge AI'],
+        eye: '03 — IoT · Embedded Systems',
+        title: 'BioClock',
+        desc: 'Wearable IoT alarm clock that eliminates snooze by detecting wakefulness through motion and heart rate. Edge AI runs fully on-device.',
+        stats: [{n:'Edge AI',l:'on ESP32'},{n:'IoT Conf',l:'presenter'}],
+        chips: ['ESP32','SwiftUI','C++','ThingSpeak','Edge AI'],
         bullets: [
           'ESP32 microcontroller programmed with edge AI for real-time motion classification',
           'Heart rate + motion sensor fusion for wakefulness detection',
@@ -622,11 +478,11 @@
         ]
       },
       {
-        eye:     '04 — Full Stack · UF Real World Engineering',
-        title:   'Big & Little',
-        desc:    'Mobile-first mentor-mentee matching app for UF clubs using a Gale-Shapley mutual ranking algorithm with 80% match accuracy.',
-        stats:   [{n:'80%', l:'match accuracy'}, {n:'5+', l:'features/sprint'}],
-        chips:   ['MongoDB','Express','React','Node.js','Expo Go','JWT'],
+        eye: '04 — Full Stack · UF Real World Engineering',
+        title: 'Big & Little',
+        desc: 'Mobile-first mentor-mentee matching app for UF clubs using a Gale-Shapley mutual ranking algorithm with 80% match accuracy.',
+        stats: [{n:'80%',l:'match accuracy'},{n:'5+',l:'features/sprint'}],
+        chips: ['MongoDB','Express','React','Node.js','Expo Go','JWT'],
         bullets: [
           'MERN stack mobile-first app with JWT authentication and MongoDB profile storage',
           'Gale-Shapley inspired multi-round mutual ranking for mentor-mentee pairing',
@@ -634,9 +490,22 @@
           '7-person Scrum team delivering 5+ features per sprint',
         ]
       },
+      {
+        eye: '05 — ML · Applied Machine Learning',
+        title: 'NYC Taxi ML',
+        desc: 'Regression models trained on the NYC Yellow Taxi Dataset to predict fare amounts. Compared Linear Regression and Lasso across an 80/20 train-test split.',
+        stats: [{n:'80/20',l:'train-test split'},{n:'IEEE',l:'format report'}],
+        chips: ['Python','scikit-learn','Linear Regression','Lasso','Jupyter','pandas'],
+        bullets: [
+          'Trained and evaluated Linear Regression and Lasso models on NYC Yellow Taxi data',
+          'Tuned regularization parameters; analyzed feature importance via Lasso sparsity',
+          'Wrote a 4-page IEEE-format technical report documenting methodology and results',
+          'Delivered reproducible notebooks with hardcoded random_state=0 for consistency',
+        ]
+      },
     ];
 
-    // ── DRAWER ─────────────────────────────────────────────────
+    // DRAWER
     let activeIdx = null;
     const detail = document.getElementById('detail');
 
@@ -645,20 +514,16 @@
       document.getElementById('d-eye').textContent   = p.eye;
       document.getElementById('d-title').textContent = p.title;
       document.getElementById('d-desc').textContent  = p.desc;
-      document.getElementById('d-stats').innerHTML   = p.stats.map(s =>
+      document.getElementById('d-stats').innerHTML = p.stats.map(s =>
         `<div><div class="d-stat-n">${s.n}</div><div class="d-stat-l">${s.l}</div></div>`
       ).join('');
-      document.getElementById('d-chips').innerHTML   = p.chips.map(c =>
+      document.getElementById('d-chips').innerHTML = p.chips.map(c =>
         `<span class="d-chip">${c}</span>`
       ).join('');
       document.getElementById('d-bullets').innerHTML = p.bullets.map(b =>
         `<li class="d-bullet">${b}</li>`
       ).join('');
-
-      document.querySelectorAll('.proj-thumb').forEach((t, i) =>
-        t.classList.toggle('active', i === idx)
-      );
-
+      document.querySelectorAll('.proj-thumb').forEach((t,i) => t.classList.toggle('active', i===idx));
       if (activeIdx === idx) { closeDetail(); return; }
       activeIdx = idx;
       detail.classList.add('open');
