@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Name</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=DM+Mono:wght@400;500&family=Inter:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --ink: #1a1916;
+      --ink-muted: #6b6760;
+      --ink-faint: #b0ada8;
+      --paper: #f9f7f4;
+      --paper-warm: #f2ede6;
+      --accent: #c05c2a;
+      --accent-light: #f0ded0;
+      --rule: #d8d3cc;
+      --mono: 'DM Mono', monospace;
+      --serif: 'Lora', Georgia, serif;
+      --sans: 'Inter', system-ui, sans-serif;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html { font-size: 17px; scroll-behavior: smooth; }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--serif);
+      line-height: 1.75;
+      min-height: 100vh;
+    }
+
+    /* ── Noise texture overlay ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── Layout ── */
+    .container {
+      position: relative;
+      z-index: 1;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: rgba(249, 247, 244, 0.88);
+      backdrop-filter: blur(8px);
+      border-bottom: 1px solid var(--rule);
+      padding: 0.75rem 0;
+    }
+
+    nav .container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-name {
+      font-family: var(--mono);
+      font-size: 0.82rem;
+      color: var(--ink-muted);
+      letter-spacing: 0.04em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-family: var(--sans);
+      font-size: 0.8rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      letter-spacing: 0.03em;
+      transition: color 0.15s;
+    }
+
+    .nav-links a:hover { color: var(--ink); }
+
+    /* ── Hero ── */
+    .hero {
+      padding: 5rem 0 3.5rem;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    .hero-eyebrow {
+      font-family: var(--mono);
+      font-size: 0.78rem;
+      color: var(--accent);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 1.25rem;
+    }
+
+    .hero h1 {
+      font-family: var(--serif);
+      font-size: clamp(2.4rem, 6vw, 3.6rem);
+      font-weight: 600;
+      line-height: 1.15;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 em {
+      font-style: italic;
+      color: var(--accent);
+    }
+
+    .hero-bio {
+      font-size: 1.05rem;
+      color: var(--ink-muted);
+      max-width: 560px;
+      line-height: 1.8;
+    }
+
+    .hero-bio p + p { margin-top: 0.9rem; }
+
+    .hero-bio strong {
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .hero-bio a {
+      color: var(--ink);
+      text-decoration-color: var(--accent);
+      text-decoration-thickness: 1.5px;
+      text-underline-offset: 3px;
+    }
+
+    /* ── Bulleted interest list ── */
+    .interest-list {
+      margin: 1.25rem 0 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .interest-list li {
+      font-size: 0.95rem;
+      color: var(--ink-muted);
+      padding: 0.3rem 0;
+      padding-left: 1.4rem;
+      position: relative;
+    }
+
+    .interest-list li::before {
+      content: '›';
+      position: absolute;
+      left: 0;
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .interest-list a {
+      color: var(--ink);
+      text-decoration-color: var(--rule);
+      text-decoration-thickness: 1px;
+    }
+
+    /* ── Section ── */
+    section {
+      padding: 3rem 0;
+      border-bottom: 1px solid var(--rule);
+    }
+
+    section:last-of-type { border-bottom: none; }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--ink-faint);
+      margin-bottom: 1.75rem;
+    }
+
+    /* ── Project cards ── */
+    .projects-grid {
+      display: grid;
+      gap: 1px;
+      background: var(--rule);
+      border: 1px solid var(--rule);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .project-card {
+      background: var(--paper);
+      padding: 1.4rem 1.6rem;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 0.5rem 1rem;
+      align-items: start;
+      text-decoration: none;
+      color: inherit;
+      transition: background 0.15s;
+    }
+
+    .project-card:hover { background: var(--paper-warm); }
+
+    .project-card:hover .project-arrow { transform: translate(3px, -3px); }
+
+    .project-name {
+      font-family: var(--sans);
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--ink);
+      margin-bottom: 0.35rem;
+    }
+
+    .project-desc {
+      font-family: var(--sans);
+      font-size: 0.83rem;
+      color: var(--ink-muted);
+      line-height: 1.55;
+      grid-column: 1;
+    }
+
+    .project-tags {
+      grid-column: 1;
+      margin-top: 0.6rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      color: var(--ink-muted);
+      background: var(--paper-warm);
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      padding: 2px 7px;
+      letter-spacing: 0.03em;
+    }
+
+    .project-arrow {
+      grid-column: 2;
+      grid-row: 1;
+      color: var(--ink-faint);
+      font-size: 1rem;
+      transition: transform 0.15s;
+      margin-top: 2px;
+    }
+
+    /* ── Links / footer ── */
+    .links-section {
+      padding: 3rem 0 4rem;
+    }
+
+    .links-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem 0;
+    }
+
+    .link-item {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: var(--sans);
+      font-size: 0.9rem;
+      color: var(--ink-muted);
+      text-decoration: none;
+      padding: 0.55rem 1rem;
+      border: 1px solid var(--rule);
+      border-radius: 6px;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      transition: border-color 0.15s, color 0.15s, background 0.15s;
+    }
+
+    .link-item:hover {
+      border-color: var(--ink-muted);
+      color: var(--ink);
+      background: var(--paper-warm);
+    }
+
+    .link-icon {
+      width: 14px;
+      height: 14px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+      flex-shrink: 0;
+    }
+
+    .footer-note {
+      margin-top: 2.5rem;
+      font-family: var(--mono);
+      font-size: 0.72rem;
+      color: var(--ink-faint);
+    }
+
+    /* ── Fade-in animation ── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .hero, .hero h1, .hero-bio, section {
+      animation: fadeUp 0.55s ease both;
+    }
+
+    .hero-eyebrow { animation-delay: 0.05s; }
+    .hero h1      { animation-delay: 0.12s; }
+    .hero-bio     { animation-delay: 0.2s; }
+
+    section:nth-of-type(1) { animation-delay: 0.28s; }
+    section:nth-of-type(2) { animation-delay: 0.34s; }
+
+    @media (max-width: 600px) {
+      .hero { padding: 3rem 0 2.5rem; }
+      .hero h1 { font-size: 2.1rem; }
+      .nav-links { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Nav -->
+  <nav>
+    <div class="container">
+      <span class="nav-name">yourname.github.io</span>
+      <ul class="nav-links">
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li><a href="https://github.com/yourusername" target="_blank" rel="noopener">GitHub ↗</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header class="hero">
+    <div class="container">
+      <p class="hero-eyebrow">Software Engineer</p>
+      <h1>Hi, I'm <em>Your Name</em>.</h1>
+      <div class="hero-bio">
+        <p>
+          I'm a software engineer focused on building <strong>clean, well-architected systems</strong>
+          that solve real problems. I care deeply about code quality, developer experience,
+          and shipping things that actually work.
+        </p>
+        <p>
+          Currently at <a href="#">Acme Corp</a>, designing distributed backend services.
+          Previously <a href="#">Startup Inc</a>.
+        </p>
+        <ul class="interest-list">
+          <li><a href="#">Go</a> and <a href="#">TypeScript</a> — building things end-to-end across the stack.</li>
+          <li>Backend reliability and thoughtful product thinking — APIs, pipelines, legacy codebases.</li>
+          <li>Good old-fashioned books. When I'm not writing code, I'm probably reading about it.</li>
+        </ul>
+      </div>
+    </div>
+  </header>
+
+  <!-- Projects -->
+  <section id="projects">
+    <div class="container">
+      <p class="section-label">Selected Projects</p>
+      <div class="projects-grid">
+
+        <a class="project-card" href="https://github.com/yourusername/project-alpha" target="_blank" rel="noopener">
+          <div>
+            <p class="project-name">Project Alpha</p>
+            <p class="project-desc">A CLI tool for automating local development environment setup. Built in Go, used by 200+ developers. Supports plugin extensions and declarative config files.</p>
+            <div class="project-tags">
+              <span class="tag">Go</span>
+              <span class="tag">CLI</span>
+              <span class="tag">open-source</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+        <a class="project-card" href="https://github.com/yourusername/project-beta" target="_blank" rel="noopener">
+          <div>
+            <p class="project-name">Project Beta</p>
+            <p class="project-desc">An open-source library for type-safe API client generation from OpenAPI specs. 1.2k GitHub stars. Written in TypeScript with zero runtime dependencies.</p>
+            <div class="project-tags">
+              <span class="tag">TypeScript</span>
+              <span class="tag">OpenAPI</span>
+              <span class="tag">1.2k ★</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+        <a class="project-card" href="https://github.com/yourusername/project-gamma" target="_blank" rel="noopener">
+          <div>
+            <p class="project-name">Project Gamma</p>
+            <p class="project-desc">A self-hosted dashboard for monitoring personal finance data across accounts. Built with Python, SQLite, and a lightweight HTMX frontend.</p>
+            <div class="project-tags">
+              <span class="tag">Python</span>
+              <span class="tag">SQLite</span>
+              <span class="tag">HTMX</span>
+            </div>
+          </div>
+          <span class="project-arrow">↗</span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact / Links -->
+  <section id="contact" class="links-section">
+    <div class="container">
+      <p class="section-label">Find me online</p>
+      <div class="links-row">
+
+        <a class="link-item" href="https://github.com/yourusername" target="_blank" rel="noopener">
+          <!-- GitHub icon -->
+          <svg class="link-icon" viewBox="0 0 24 24">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          GitHub
+        </a>
+
+        <a class="link-item" href="https://linkedin.com/in/yourprofile" target="_blank" rel="noopener">
+          <!-- LinkedIn icon -->
+          <svg class="link-icon" viewBox="0 0 24 24">
+            <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/>
+            <rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/>
+          </svg>
+          LinkedIn
+        </a>
+
+        <a class="link-item" href="https://twitter.com/yourhandle" target="_blank" rel="noopener">
+          <!-- Twitter/X icon -->
+          <svg class="link-icon" viewBox="0 0 24 24">
+            <path d="M4 4l16 16M20 4L4 20"/>
+          </svg>
+          Twitter / X
+        </a>
+
+        <a class="link-item" href="mailto:you@example.com">
+          <!-- Mail icon -->
+          <svg class="link-icon" viewBox="0 0 24 24">
+            <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+            <polyline points="22,6 12,13 2,6"/>
+          </svg>
+          you@example.com
+        </a>
+
+      </div>
+
+      <p class="footer-note">© 2026 Your Name · Built with GitHub Pages</p>
+    </div>
+  </section>
+
+</body>
+</html>
