@@ -3,7 +3,7 @@ import { defineConfig } from 'astro/config';
 export default defineConfig({
   output: 'static',
   devToolbar: { enabled: false },
-  site: 'https://sheff2.github.io',
+  site: 'https://shaunh.dev',
   build: {
     inlineStylesheets: 'auto',
   },
