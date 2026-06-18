@@ -1,0 +1,133 @@
+{
+  "$schema": "schemas/diarization.schema.json",
+  "durationSec": 32,
+  "rtf": 0.8,
+  "speakers": [
+    {
+      "id": "S1",
+      "name": "Margaret",
+      "role": "daughter"
+    },
+    {
+      "id": "S2",
+      "name": "Dr. Okafor",
+      "role": "physician"
+    },
+    {
+      "id": "S3",
+      "name": "Sam",
+      "role": "caregiver"
+    }
+  ],
+  "segments": [
+    {
+      "speaker": "S1",
+      "start": 0.6,
+      "end": 4.1,
+      "text": "Morning, Dad — Dr. Okafor is here for your checkup."
+    },
+    {
+      "speaker": "S2",
+      "start": 4.6,
+      "end": 9.8,
+      "text": "Good morning! Last time we talked about your garden. How are the tomatoes?"
+    },
+    {
+      "speaker": "S1",
+      "start": 10.3,
+      "end": 12.4,
+      "text": "He repotted them on Sunday."
+    },
+    {
+      "speaker": "S3",
+      "start": 13.1,
+      "end": 16.7,
+      "text": "I can bring the planter inside if it frosts this week."
+    },
+    {
+      "speaker": "S2",
+      "start": 17.4,
+      "end": 23,
+      "text": "Perfect. Now, any dizziness since we adjusted the medication?"
+    },
+    {
+      "speaker": "S1",
+      "start": 23.8,
+      "end": 26.5,
+      "text": "He mentioned a little, on Tuesday morning."
+    },
+    {
+      "speaker": "S3",
+      "start": 27.2,
+      "end": 31.4,
+      "text": "Tuesday, right after breakfast — I wrote it in the log."
+    }
+  ],
+  "reconciliation": [
+    {
+      "t": 4.6,
+      "segmentSpeaker": "S2",
+      "voice": {
+        "match": "S2",
+        "confidence": 0.93,
+        "source": "Redimnet embedding"
+      },
+      "face": {
+        "match": "P-okafor",
+        "confidence": 0.88,
+        "source": "vision pipeline"
+      },
+      "resolved": {
+        "person": "Dr. Okafor",
+        "confidence": 0.97
+      },
+      "note": "Known voice + known face → high-confidence identity"
+    },
+    {
+      "t": 13.1,
+      "segmentSpeaker": "S3",
+      "voice": {
+        "match": "S3",
+        "confidence": 0.71,
+        "source": "Redimnet embedding"
+      },
+      "face": {
+        "match": "P-sam",
+        "confidence": 0.9,
+        "source": "vision pipeline"
+      },
+      "resolved": {
+        "person": "Sam",
+        "confidence": 0.94
+      },
+      "note": "Uncertain voice resolved by face match"
+    },
+    {
+      "t": 23.8,
+      "segmentSpeaker": "S1",
+      "voice": {
+        "match": "S1",
+        "confidence": 0.95,
+        "source": "Redimnet embedding"
+      },
+      "face": {
+        "match": null,
+        "confidence": 0,
+        "source": "vision pipeline"
+      },
+      "resolved": {
+        "person": "Margaret",
+        "confidence": 0.91
+      },
+      "note": "Speaker off-camera — voice embedding alone carries the match"
+    }
+  ],
+  "memoryProfile": {
+    "person": "Dr. Okafor",
+    "facts": [
+      "Asked about the tomato garden",
+      "Adjusted medication two weeks ago",
+      "Visits on Thursday mornings"
+    ]
+  }
+}

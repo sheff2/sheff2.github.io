@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "mentormatch.schema.json",
+  "title": "Mentor-Match round demo",
+  "description": "A small precomputed Gale–Shapley-style matching round for the micro-exhibit.",
+  "type": "object",
+  "required": ["mentors", "mentees", "rounds", "final"],
+  "properties": {
+    "algorithm": { "type": "string" },
+    "mentors": { "type": "array", "items": { "$ref": "#/$defs/person" } },
+    "mentees": { "type": "array", "items": { "$ref": "#/$defs/person" } },
+    "preferences": {
+      "type": "object",
+      "description": "person id → ordered list of preferred counterpart ids",
+      "additionalProperties": { "type": "array", "items": { "type": "string" } }
+    },
+    "rounds": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["proposals", "tentative"],
+        "properties": {
+          "proposals": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["from", "to", "outcome"],
+              "properties": {
+                "from": { "type": "string" },
+                "to": { "type": "string" },
+                "outcome": { "enum": ["accepted", "held", "rejected"] },
+                "displaces": { "type": "string" }
+              }
+            }
+          },
+          "tentative": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } }
+        }
+      }
+    },
+    "final": { "type": "array", "items": { "type": "array", "items": { "type": "string" } } },
+    "stats": { "type": "object" }
+  },
+  "$defs": {
+    "person": {
+      "type": "object",
+      "required": ["id", "name"],
+      "properties": { "id": { "type": "string" }, "name": { "type": "string" } }
+    }
+  }
+}

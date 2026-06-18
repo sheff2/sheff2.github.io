@@ -1,0 +1,60 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "permitpal.schema.json",
+  "title": "PermitPal routing demo",
+  "description": "Precomputed query → routing decision → permission bundle responses. Replace with captured outputs from the real system.",
+  "type": "object",
+  "required": ["routes", "queries"],
+  "properties": {
+    "routes": {
+      "type": "object",
+      "properties": {
+        "local": { "$ref": "#/$defs/route" },
+        "api": { "$ref": "#/$defs/route" }
+      }
+    },
+    "queries": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "query", "route", "localMs", "bundle"],
+        "properties": {
+          "id": { "type": "string" },
+          "query": { "type": "string" },
+          "route": { "enum": ["local", "api"], "description": "Which path the router chose" },
+          "localMs": { "type": "number", "description": "Latency of the local Ollama path" },
+          "apiMs": { "type": ["number", "null"], "description": "Latency of the API path; null when PII-safe mode forbids it" },
+          "bundle": {
+            "type": "object",
+            "required": ["name", "permissions"],
+            "properties": {
+              "name": { "type": "string" },
+              "principle": { "type": "string" },
+              "permissions": { "type": "array", "items": { "$ref": "#/$defs/perm" } },
+              "excluded": {
+                "type": "array",
+                "description": "Broader permissions the recommender deliberately did NOT grant",
+                "items": { "$ref": "#/$defs/perm" }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "route": {
+      "type": "object",
+      "properties": { "label": { "type": "string" }, "piiSafe": { "type": "boolean" } }
+    },
+    "perm": {
+      "type": "object",
+      "required": ["scope", "action"],
+      "properties": {
+        "scope": { "type": "string" },
+        "action": { "type": "string" },
+        "reason": { "type": "string" }
+      }
+    }
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "$schema": "schemas/taxitips.schema.json",
+  "source": "Real fitted model outputs transcribed from the report (Tables II-III, Test Results) — public/papers/nyc_taxi.pdf",
+  "dataset": {
+    "name": "NYC 2023 Yellow Taxi Trip Data",
+    "trips": "~10,000",
+    "cleaning": "cash transactions removed (~20%) — cash tips are never logged",
+    "cvFolds": 10
+  },
+  "models": {
+    "linear": {
+      "name": "Linear regression",
+      "cvR2": 0.6033,
+      "ci": [0.5301, 0.6764],
+      "testR2": 0.62,
+      "rmse": 2.39,
+      "rmsePctOfMeanTip": 54.2
+    },
+    "lasso": {
+      "name": "LASSO (λ = 0.01)",
+      "lambda": 0.01,
+      "cvR2": 0.6075,
+      "ci": [0.5382, 0.6769],
+      "testR2": 0.624,
+      "rmse": 2.38,
+      "rmsePctOfMeanTip": 53.9,
+      "chosen": true
+    }
+  },
+  "features": [
+    { "id": "ratecode_99", "label": "ratecode 99 (unknown)", "linear": -3.750363, "lasso": -3.755795 },
+    { "id": "pre_tip_total", "label": "pre-tip total amount", "linear": 3.068447, "lasso": 2.950557 },
+    { "id": "ratecode_2", "label": "ratecode 2 (JFK)", "linear": 2.55732, "lasso": 0.998764 },
+    { "id": "ratecode_1", "label": "ratecode 1 (standard)", "linear": 1.826362, "lasso": 0.384616 },
+    { "id": "ratecode_4", "label": "ratecode 4", "linear": -1.24757, "lasso": 0 },
+    { "id": "ratecode_5", "label": "ratecode 5", "linear": 1.149519, "lasso": 0 },
+    { "id": "ratecode_3", "label": "ratecode 3", "linear": -0.535268, "lasso": 0 },
+    { "id": "vendor_2", "label": "vendor 2", "linear": 0.283569, "lasso": 0 },
+    { "id": "vendor_1", "label": "vendor 1", "linear": -0.283569, "lasso": -0.527897 },
+    { "id": "afternoon", "label": "afternoon pickup", "linear": 0.18435, "lasso": 0.171052 },
+    { "id": "sunday", "label": "Sunday pickup", "linear": -0.154629, "lasso": -0.083691 },
+    { "id": "store_fwd_n", "label": "store-and-fwd flag N", "linear": -0.147097, "lasso": 0 },
+    { "id": "store_fwd_y", "label": "store-and-fwd flag Y", "linear": 0.147097, "lasso": 0 },
+    { "id": "trip_distance", "label": "trip distance", "linear": 0.139153, "lasso": 0.193769 },
+    { "id": "morning", "label": "morning pickup", "linear": -0.137034, "lasso": -0.103543 },
+    { "id": "thursday", "label": "Thursday pickup", "linear": 0.089194, "lasso": 0.008176 },
+    { "id": "monday", "label": "Monday pickup", "linear": -0.080509, "lasso": -0.015917 },
+    { "id": "wednesday", "label": "Wednesday pickup", "linear": 0.058769, "lasso": 0 },
+    { "id": "saturday", "label": "Saturday pickup", "linear": 0.050275, "lasso": 0 },
+    { "id": "pulocation", "label": "pickup location id", "linear": 0.048148, "lasso": 0.042156 },
+    { "id": "tuesday", "label": "Tuesday pickup", "linear": 0.041023, "lasso": 0 },
+    { "id": "night", "label": "night pickup", "linear": -0.038939, "lasso": 0 },
+    { "id": "dolocation", "label": "dropoff location id", "linear": -0.021322, "lasso": 0 },
+    { "id": "passenger_count", "label": "passenger count", "linear": -0.011738, "lasso": 0 },
+    { "id": "evening", "label": "evening pickup", "linear": -0.008377, "lasso": 0 },
+    { "id": "ride_duration", "label": "ride duration", "linear": -0.006414, "lasso": 0 },
+    { "id": "friday", "label": "Friday pickup", "linear": -0.004123, "lasso": 0 }
+  ]
+}

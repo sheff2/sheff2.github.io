@@ -1,0 +1,137 @@
+{
+  "$schema": "schemas/mentormatch.schema.json",
+  "algorithm": "Gale–Shapley-inspired mutual ranking",
+  "mentors": [
+    {
+      "id": "M1",
+      "name": "Ada"
+    },
+    {
+      "id": "M2",
+      "name": "Grace"
+    },
+    {
+      "id": "M3",
+      "name": "Edsger"
+    }
+  ],
+  "mentees": [
+    {
+      "id": "E1",
+      "name": "Kai"
+    },
+    {
+      "id": "E2",
+      "name": "Noor"
+    },
+    {
+      "id": "E3",
+      "name": "Theo"
+    }
+  ],
+  "preferences": {
+    "M1": [
+      "E2",
+      "E1",
+      "E3"
+    ],
+    "M2": [
+      "E1",
+      "E3",
+      "E2"
+    ],
+    "M3": [
+      "E1",
+      "E2",
+      "E3"
+    ],
+    "E1": [
+      "M3",
+      "M2",
+      "M1"
+    ],
+    "E2": [
+      "M1",
+      "M3",
+      "M2"
+    ],
+    "E3": [
+      "M2",
+      "M1",
+      "M3"
+    ]
+  },
+  "rounds": [
+    {
+      "proposals": [
+        {
+          "from": "M1",
+          "to": "E2",
+          "outcome": "accepted"
+        },
+        {
+          "from": "M2",
+          "to": "E1",
+          "outcome": "held"
+        },
+        {
+          "from": "M3",
+          "to": "E1",
+          "outcome": "accepted",
+          "displaces": "M2"
+        }
+      ],
+      "tentative": [
+        [
+          "M1",
+          "E2"
+        ],
+        [
+          "M3",
+          "E1"
+        ]
+      ]
+    },
+    {
+      "proposals": [
+        {
+          "from": "M2",
+          "to": "E3",
+          "outcome": "accepted"
+        }
+      ],
+      "tentative": [
+        [
+          "M1",
+          "E2"
+        ],
+        [
+          "M3",
+          "E1"
+        ],
+        [
+          "M2",
+          "E3"
+        ]
+      ]
+    }
+  ],
+  "final": [
+    [
+      "M1",
+      "E2"
+    ],
+    [
+      "M2",
+      "E3"
+    ],
+    [
+      "M3",
+      "E1"
+    ]
+  ],
+  "stats": {
+    "matchAccuracy": 0.8,
+    "stack": "MERN + Expo"
+  }
+}

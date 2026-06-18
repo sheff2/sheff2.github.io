@@ -1,0 +1,110 @@
+{
+  "$schema": "schemas/permitpal.schema.json",
+  "routes": {
+    "local": {
+      "label": "Local (Ollama, on-prem)",
+      "piiSafe": true
+    },
+    "api": {
+      "label": "OpenAI API (hot path)",
+      "piiSafe": false
+    }
+  },
+  "queries": [
+    {
+      "id": "q-deploy",
+      "query": "I need to deploy the billing service to staging",
+      "route": "api",
+      "localMs": 4280,
+      "apiMs": 410,
+      "bundle": {
+        "name": "staging-deployer",
+        "principle": "least privilege",
+        "permissions": [
+          {
+            "scope": "k8s:staging/billing",
+            "action": "deploy",
+            "reason": "rollout of the named service only"
+          },
+          {
+            "scope": "registry:billing-*",
+            "action": "pull",
+            "reason": "fetch service images"
+          },
+          {
+            "scope": "logs:staging/billing",
+            "action": "read",
+            "reason": "verify rollout health"
+          }
+        ],
+        "excluded": [
+          {
+            "scope": "k8s:staging/*",
+            "action": "admin",
+            "reason": "broader than the request"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q-dashboard",
+      "query": "Read-only access to the revenue dashboard for an audit",
+      "route": "api",
+      "localMs": 3950,
+      "apiMs": 380,
+      "bundle": {
+        "name": "audit-viewer",
+        "principle": "least privilege",
+        "permissions": [
+          {
+            "scope": "bi:dashboards/revenue",
+            "action": "view",
+            "reason": "audit review"
+          },
+          {
+            "scope": "bi:exports/revenue",
+            "action": "export-csv",
+            "reason": "audit evidence"
+          }
+        ],
+        "excluded": [
+          {
+            "scope": "bi:datasets/revenue-raw",
+            "action": "query",
+            "reason": "raw PII not needed to audit"
+          }
+        ]
+      }
+    },
+    {
+      "id": "q-pii",
+      "query": "Access to customer SSNs for the KYC backlog",
+      "route": "local",
+      "localMs": 4490,
+      "apiMs": null,
+      "bundle": {
+        "name": "kyc-processor (PII-safe mode)",
+        "principle": "least privilege",
+        "permissions": [
+          {
+            "scope": "kyc:queue",
+            "action": "process",
+            "reason": "work the backlog without raw export"
+          },
+          {
+            "scope": "pii:ssn",
+            "action": "verify-masked",
+            "reason": "masked verification, no plaintext read"
+          }
+        ],
+        "excluded": [
+          {
+            "scope": "pii:ssn",
+            "action": "read",
+            "reason": "plaintext PII denied; routed on-prem"
+          }
+        ]
+      }
+    }
+  ]
+}

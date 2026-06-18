@@ -1,0 +1,79 @@
+<figure class="exhibit" data-exhibit="diarization" data-src="/data/diarization.json" id="fig-02">
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 02</strong> · who is speaking</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono">synthetic conversation</span>
+  </div>
+
+  <canvas data-timeline height="120" role="img"
+    aria-label="Diarization timeline: color-coded speaker segments appear as the conversation plays"></canvas>
+
+  <label class="mono" for="dz-scrub" style="display:block; margin-top:0.6rem">Scrub</label>
+  <input type="range" id="dz-scrub" data-scrub min="0" max="320" value="0" step="1" />
+
+  <div class="ctl-row">
+    <button class="btn btn--red" type="button" data-play aria-pressed="false">Play ▸</button>
+    <p class="readout" aria-live="off">
+      <span data-ro-time>t = 0.0 s</span>
+      <span data-ro-speaker>–</span>
+    </p>
+  </div>
+
+  <p data-transcript class="dz-transcript"></p>
+
+  <div class="dz-ident" data-ident hidden>
+    <p class="mono"><strong data-ident-note>identity reconciliation</strong></p>
+    <div class="dz-sig">
+      <span class="mono">voice</span>
+      <span class="dz-bar"><i data-bar-voice></i></span>
+      <span class="mono" data-val-voice>–</span>
+    </div>
+    <div class="dz-sig">
+      <span class="mono">face</span>
+      <span class="dz-bar"><i data-bar-face></i></span>
+      <span class="mono" data-val-face>–</span>
+    </div>
+    <p class="dz-resolved mono" data-resolved></p>
+  </div>
+
+  <div class="dz-memory" data-memory hidden>
+    <p class="mono"><strong>memory profile → Dr. Okafor</strong></p>
+    <ul class="mono" data-memory-list></ul>
+  </div>
+
+  <figcaption class="figcap mono">
+    ReDimNet voice embeddings + face identity, fused by the coordinator into
+    one person. Parakeet transcription benchmarked at RTF 0.085 on the real
+    pipeline. Names and conversation here are synthetic.
+  </figcaption>
+</figure>
+
+<style>
+  .dz-transcript {
+    min-height: 3.2em;
+    font-size: 0.95rem;
+    line-height: 1.55;
+    max-width: 42em;
+    margin-top: 0.4rem;
+  }
+  .dz-ident { margin-top: 0.8rem; border-top: 1px dashed var(--c-baffle); padding-top: 0.8rem; }
+  .dz-sig {
+    display: grid;
+    grid-template-columns: 3.2rem 1fr 3rem;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 0.45rem;
+  }
+  .dz-bar { display: block; height: 4px; background: var(--c-baffle); overflow: hidden; }
+  .dz-bar i {
+    display: block;
+    height: 100%;
+    width: 0%;
+    background: var(--c-ink);
+    transition: width 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .dz-resolved { margin-top: 0.7rem; color: var(--c-red); }
+  .dz-memory { margin-top: 0.9rem; border-top: 1px dashed var(--c-baffle); padding-top: 0.8rem; }
+  .dz-memory ul { padding-left: 1.1rem; margin-top: 0.4rem; }
+  .dz-memory li { margin-top: 0.2rem; text-transform: none; letter-spacing: 0.03em; }
+</style>

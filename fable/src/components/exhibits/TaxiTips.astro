@@ -1,0 +1,59 @@
+<figure class="exhibit" data-exhibit="taxitips" data-src="/data/taxitips.json" id="fig-05">
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 05</strong> · what predicts a taxi tip</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono">NYC 2023 · real coefficients</span>
+  </div>
+
+  <div class="ctl-row" role="group" aria-label="Regression model">
+    <button class="btn" type="button" data-model="linear" aria-pressed="true">Linear regression</button>
+    <button class="btn" type="button" data-model="lasso" aria-pressed="false">LASSO (λ = 0.01)</button>
+    <p class="readout"><span data-ro-view aria-live="polite">…</span></p>
+    <noscript><p class="mono">Interactive exhibit requires JavaScript.</p></noscript>
+  </div>
+
+  <canvas data-coef height="380" role="img"
+    aria-label="Fitted regression coefficients for all 27 features, linear versus LASSO"></canvas>
+
+  <canvas data-ci height="74" role="img"
+    aria-label="Cross-validated R squared with 95 percent confidence intervals for both models"
+    style="margin-top: 0.6rem"></canvas>
+
+  <table class="mono tx-table" aria-label="Model performance">
+    <thead>
+      <tr><th>model</th><th>cv R² (95% CI)</th><th>test R²</th><th>RMSE</th></tr>
+    </thead>
+    <tbody data-metrics><!-- filled from real model results --></tbody>
+  </table>
+
+  <figcaption class="figcap mono">
+    Real fitted coefficients and metrics from the report, not a simulation.
+    Toggle LASSO and watch it zero 15 of 27 features. Cash trips were removed
+    before training because cash tips are never logged. RMSE is shown with its
+    share of the mean tip.
+  </figcaption>
+</figure>
+
+<style is:global>
+  .tx-table {
+    width: 100%;
+    margin-top: 0.9rem;
+    border-collapse: collapse;
+    font-size: 0.72rem;
+  }
+  .tx-table th,
+  .tx-table td {
+    text-align: left;
+    padding: 0.35rem 0.6rem 0.35rem 0;
+    border-bottom: 1px solid var(--c-baffle);
+    vertical-align: top;
+  }
+  .tx-table th {
+    font-weight: 500;
+    color: var(--c-foam);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    white-space: nowrap;
+  }
+  .tx-table tr.is-chosen td { color: var(--c-red); }
+</style>

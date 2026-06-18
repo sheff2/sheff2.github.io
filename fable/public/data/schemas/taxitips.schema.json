@@ -1,0 +1,51 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "NYC Taxi Tips — real fitted model outputs",
+  "description": "Fitted coefficients and metrics for the linear vs LASSO tip-prediction models, transcribed from the report (Tables II-III, Test Results).",
+  "type": "object",
+  "required": ["dataset", "models", "features"],
+  "properties": {
+    "source": { "type": "string" },
+    "dataset": {
+      "type": "object",
+      "required": ["name", "trips", "cvFolds"],
+      "properties": {
+        "name": { "type": "string" },
+        "trips": { "type": "string" },
+        "cleaning": { "type": "string" },
+        "cvFolds": { "type": "integer" }
+      }
+    },
+    "models": {
+      "type": "object",
+      "required": ["linear", "lasso"],
+      "additionalProperties": {
+        "type": "object",
+        "required": ["name", "cvR2", "ci", "testR2", "rmse"],
+        "properties": {
+          "name": { "type": "string" },
+          "lambda": { "type": "number" },
+          "cvR2": { "type": "number" },
+          "ci": { "type": "array", "items": { "type": "number" }, "minItems": 2, "maxItems": 2 },
+          "testR2": { "type": "number" },
+          "rmse": { "type": "number" },
+          "rmsePctOfMeanTip": { "type": "number" },
+          "chosen": { "type": "boolean" }
+        }
+      }
+    },
+    "features": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "label", "linear", "lasso"],
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "linear": { "type": "number" },
+          "lasso": { "type": "number" }
+        }
+      }
+    }
+  }
+}

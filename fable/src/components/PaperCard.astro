@@ -1,0 +1,45 @@
+---
+/** Reusable IEEE-style paper card. */
+interface Props {
+  title: string;
+  authors: string;
+  venue: string;
+  year: string;
+  abstract: string;
+  pdfUrl: string;
+  bibtex: string;
+}
+const { title, authors, venue, year, abstract, pdfUrl, bibtex } = Astro.props;
+---
+
+<article class="card paper reveal" data-paper>
+  <div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+  <p class="mono">Paper · {venue} · {year}</p>
+  <h3 class="paper__title">{title}</h3>
+  <p class="paper__meta mono"><span>{authors}</span></p>
+
+  <details>
+    <summary>Abstract</summary>
+    <p>{abstract}</p>
+  </details>
+
+  <div class="paper__actions">
+    <a class="btn" href={pdfUrl} target="_blank" rel="noopener">Read paper (PDF) ↗</a>
+    <button class="btn" type="button" data-bibtex={bibtex} data-copy-bibtex>Copy BibTeX</button>
+  </div>
+</article>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-bibtex]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      try {
+        await navigator.clipboard.writeText(btn.dataset.bibtex ?? '');
+        const prev = btn.textContent;
+        btn.textContent = 'Copied ✓';
+        setTimeout(() => (btn.textContent = prev), 1600);
+      } catch {
+        btn.textContent = 'Copy failed';
+      }
+    });
+  });
+</script>

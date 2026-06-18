@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "X-Ray Disease Classification Data",
+  "description": "Dataset for interactive chest X-ray disease classification exhibit with CNN predictions",
+  "type": "object",
+  "properties": {
+    "diseases": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "abbreviation": { "type": "string" },
+          "description": { "type": "string" },
+          "prevalence": { "type": "number" }
+        },
+        "required": ["id", "name", "abbreviation", "description", "prevalence"]
+      }
+    },
+    "model": {
+      "type": "object",
+      "properties": {
+        "name": { "type": "string" },
+        "architecture": { "type": "string" },
+        "binary_accuracy": { "type": "number" },
+        "auc": { "type": "number" },
+        "loss": { "type": "number" },
+        "threshold": { "type": "number" }
+      },
+      "required": ["name", "architecture", "binary_accuracy", "auc", "loss", "threshold"]
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "string" },
+          "label": { "type": "string" },
+          "description": { "type": "string" },
+          "imageUrl": { "type": "string" },
+          "groundTruth": {
+            "type": "object",
+            "additionalProperties": { "type": "boolean" }
+          },
+          "predictions": {
+            "type": "object",
+            "additionalProperties": { "type": "number" }
+          },
+          "heatmapUrl": { "type": "string" },
+          "confidence": { "type": "number" },
+          "classification": { "type": "string" }
+        },
+        "required": ["id", "label", "description", "imageUrl", "groundTruth", "predictions", "confidence", "classification"]
+      }
+    }
+  },
+  "required": ["diseases", "model", "samples"]
+}

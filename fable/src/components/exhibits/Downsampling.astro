@@ -1,0 +1,93 @@
+<figure
+  class="exhibit"
+  data-exhibit="downsampling"
+  data-src="/data/wakeword-downsampling.json"
+  id="fig-01b"
+>
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 01b</strong> · downsample, don't upsample</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono">48 kHz → 16 kHz</span>
+  </div>
+
+  <div class="ds-grid">
+    <div>
+      <noscript><p class="mono">Interactive exhibit requires JavaScript.</p></noscript>
+      <canvas data-cmp height="190" role="img"
+        aria-label="Log-magnitude spectrum of the same Go Gators recording at 48 kilohertz and after downsampling to 16 kilohertz"></canvas>
+    </div>
+
+    <div>
+      <table class="mono ds-table" data-table aria-label="Sample-rate experiments and F1 scores">
+        <thead>
+          <tr><th>approach</th><th>result</th><th>outcome</th></tr>
+        </thead>
+        <tbody><!-- filled from real experiment data --></tbody>
+      </table>
+
+      <p class="ds-note">
+        The Google Speech Commands dataset is only in 16 kHz and our recordings
+        were 48 kHz, so one of them had to move. Upsampling the Google data to
+        48 kHz seemed to just be adding noise, and the model overfit. Instead
+        we downsampled our training dataset from 48 kHz to 16 kHz, because
+        <span class="stat">human voice recognition is still good on that
+        frequency range</span>. 48 kHz audio is incredibly dense, and a 16 kHz
+        signal only carries frequencies up to 8 kHz. The gray spectrum shows
+        there is almost nothing to the right of the red line to lose, and the
+        mel spectrogram layer compresses those high frequencies anyway.
+      </p>
+
+      <p class="figcap mono">
+        Measured spectrum of a real “Go Gators” training recording, not an
+        illustration. Full write-up in the
+        <a class="u-link" href="/papers/wakeword-transfer-learning.pdf">report (PDF)</a>.
+      </p>
+    </div>
+  </div>
+</figure>
+
+<style is:global>
+  .ds-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 3fr) minmax(0, 2fr);
+    gap: 0.4rem 2rem;
+    align-items: start;
+  }
+  .ds-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.72rem;
+  }
+  .ds-table th,
+  .ds-table td {
+    text-align: left;
+    padding: 0.35rem 0.6rem 0.35rem 0;
+    border-bottom: 1px solid var(--c-baffle);
+    vertical-align: top;
+  }
+  .ds-table th {
+    font-weight: 500;
+    color: var(--c-foam);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+  .ds-table tr.is-kept td { color: var(--c-red); }
+
+  .ds-note {
+    margin-top: 0.9rem;
+    font-size: 0.92rem;
+    line-height: 1.55;
+    max-width: 40em;
+  }
+  .ds-note .stat {
+    font-family: var(--f-mono);
+    font-size: 0.95em;
+    color: var(--c-red);
+    font-weight: 500;
+  }
+
+  @media (max-width: 860px) {
+    .ds-grid { grid-template-columns: 1fr; }
+    .ds-grid .ds-note { margin-top: 0.9rem; }
+  }
+</style>

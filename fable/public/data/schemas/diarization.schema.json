@@ -1,0 +1,82 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "diarization.schema.json",
+  "title": "Diarization timeline demo",
+  "description": "A privacy-safe conversation for the smart-glasses exhibit: speaker segments plus cross-modal identity-reconciliation events. Replace with real (consented/synthetic) pipeline output.",
+  "type": "object",
+  "required": ["durationSec", "speakers", "segments"],
+  "properties": {
+    "durationSec": { "type": "number" },
+    "rtf": { "type": "number", "description": "Real-time factor of the transcription pipeline" },
+    "speakers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "name"],
+        "properties": {
+          "id": { "type": "string" },
+          "name": { "type": "string" },
+          "role": { "type": "string" }
+        }
+      }
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["speaker", "start", "end"],
+        "properties": {
+          "speaker": { "type": "string", "description": "speaker id" },
+          "start": { "type": "number" },
+          "end": { "type": "number" },
+          "text": { "type": "string", "description": "Live transcription text revealed as the playhead crosses the segment" }
+        }
+      }
+    },
+    "reconciliation": {
+      "type": "array",
+      "description": "Moments where voice and face identity signals are fused",
+      "items": {
+        "type": "object",
+        "required": ["t", "voice", "face", "resolved"],
+        "properties": {
+          "t": { "type": "number" },
+          "segmentSpeaker": { "type": "string" },
+          "voice": {
+            "type": "object",
+            "properties": {
+              "match": { "type": ["string", "null"] },
+              "confidence": { "type": "number" },
+              "source": { "type": "string" }
+            }
+          },
+          "face": {
+            "type": "object",
+            "properties": {
+              "match": { "type": ["string", "null"] },
+              "confidence": { "type": "number" },
+              "source": { "type": "string" }
+            }
+          },
+          "resolved": {
+            "type": "object",
+            "required": ["person", "confidence"],
+            "properties": {
+              "person": { "type": "string" },
+              "confidence": { "type": "number" }
+            }
+          },
+          "note": { "type": "string" }
+        }
+      }
+    },
+    "memoryProfile": {
+      "type": "object",
+      "description": "LLM-derived memory facts surfaced at the end of playback",
+      "properties": {
+        "person": { "type": "string" },
+        "facts": { "type": "array", "items": { "type": "string" } }
+      }
+    }
+  }
+}

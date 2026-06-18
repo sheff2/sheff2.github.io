@@ -1,0 +1,121 @@
+---
+// Fig. 02 — one interaction: the annotated demo video, with the backend's real
+// coordinator log printing underneath it in sync with playback. Log lines are
+// verbatim from the run (public/video, Console.mov); `t` is the video time (s)
+// each line appears, calibrated so the "Binding" line lands as the on-screen
+// box flips Unknown -> Sean (~4.5 s).
+const log = [
+  { t: 0.4, src: '[Coordinator]', html: '<span class="cl-spk">Tiger</span>: Hey Sean.' },
+  { t: 1.6, src: '[Vision]', html: "Saved new face embedding for 'Sean' to database." },
+  { t: 3.0, src: '[Coordinator]', html: '<span class="cl-unknown">Unknown</span>: Hello Tiger. How’s your day going?' },
+  { t: 4.2, src: '[Vision]', html: "Registered 'Sean' using provided embedding." },
+  { t: 4.6, src: '[Coordinator]', cls: 'is-bind', html: 'Binding unknown voice to pending identity: Sean' },
+  { t: 5.2, src: '[Audio]', html: "Registered 'Sean' using provided embedding." },
+  { t: 6.8, src: '[Coordinator]', html: '<span class="cl-spk">Tiger</span>: It’s going well.' },
+  { t: 8.0, src: '[Coordinator]', html: '<span class="cl-spk">Tiger</span>: Uh how’s yours?' },
+  { t: 9.8, src: '[Coordinator]', html: '<span class="cl-spk cl-resolved">Sean</span>: My day’s going great.' },
+];
+---
+
+<figure class="exhibit" id="fig-02">
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 02</strong> · live demo · face + voice ID</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono">press play</span>
+  </div>
+
+  <video
+    class="gl-video"
+    controls
+    preload="none"
+    playsinline
+    width="640"
+    height="480"
+    poster="/video/glasses-annotated-poster.jpg"
+    aria-label="Live demo: a face box label changes from Unknown to Sean as the identity is learned"
+    data-gl-video
+  >
+    <source src="/video/glasses-annotated.mp4" type="video/mp4" />
+    <p class="mono">Your browser cannot play this video.</p>
+  </video>
+
+  <div class="cl" data-gl-log aria-hidden="true">
+    {log.map((ln) => (
+      <p class={`cl-line${ln.cls ? ' ' + ln.cls : ''}`} data-t={ln.t}>
+        <span class="cl-src">{ln.src}</span><span class="cl-text" set:html={ln.html} />
+      </p>
+    ))}
+    <span class="cl-cursor"></span>
+  </div>
+
+  <figcaption class="figcap mono">
+    The green box is the live face detector; its label flips from “Unknown
+    (ID: 1)” to “Sean (ID: 1)” as the pipeline learns the new face and voice.
+    The log below is the backend's verbatim output, printing in time with the
+    video.
+  </figcaption>
+</figure>
+
+<style>
+  .gl-video {
+    width: 100%;
+    height: auto;
+    display: block;
+    background: var(--c-ink);
+    border: 1px solid var(--c-baffle);
+  }
+
+  .cl {
+    font-family: var(--f-mono);
+    font-size: 0.76rem;
+    line-height: 1.7;
+    color: var(--c-ink);
+    margin-top: 0.8rem;
+    padding-top: 0.7rem;
+    border-top: 1px solid var(--c-baffle);
+    overflow-x: auto;
+  }
+  .cl-line { white-space: nowrap; transition: opacity 0.25s ease; }
+  .cl-src { display: inline-block; width: 14ch; color: var(--c-foam); }
+  .cl-spk { font-weight: 500; }
+  .cl-unknown { color: var(--c-red); font-weight: 500; }
+  .cl-line.is-bind .cl-text { color: var(--c-red); }
+  .cl-resolved { font-weight: 600; }
+  .cl-cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.95em;
+    background: var(--c-foam);
+    vertical-align: text-bottom;
+  }
+
+  /* ghosted until the video reaches each line; brightens in sync with playback */
+  :global(html.js) .cl-line { opacity: 0.16; }
+  :global(html.js) .cl-line.is-on { opacity: 1; }
+  :global(html.reduced) .cl-line { transition: none; }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .cl-cursor { animation: cl-blink 1s steps(1) infinite; }
+  }
+  @keyframes cl-blink { 50% { opacity: 0; } }
+</style>
+
+<script>
+  // Self-contained lazy init (mirrors the main.js loader) so this stays within
+  // the smart-glasses section. No data-exhibit attr, so the central loader
+  // leaves it alone.
+  const root = document.getElementById('fig-02');
+  if (root) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (!e.isIntersecting) return;
+          io.unobserve(e.target);
+          import('../../scripts/exhibits/glassesdemo.js').then((m) => m.default(e.target));
+        });
+      },
+      { rootMargin: '200px 0px' }
+    );
+    io.observe(root);
+  }
+</script>

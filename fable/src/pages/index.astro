@@ -1,0 +1,513 @@
+---
+import '../styles/global.css';
+import Hero from '../components/Hero.astro';
+import Divider from '../components/Divider.astro';
+import Project from '../components/Project.astro';
+import PaperCard from '../components/PaperCard.astro';
+import Wakeword from '../components/exhibits/Wakeword.astro';
+import Downsampling from '../components/exhibits/Downsampling.astro';
+import GlassesDemo from '../components/exhibits/GlassesDemo.astro';
+import Bioclock from '../components/exhibits/Bioclock.astro';
+import MentorMatch from '../components/exhibits/MentorMatch.astro';
+import TaxiTips from '../components/exhibits/TaxiTips.astro';
+
+const bibtex = `@techreport{burchill2026wakeword,
+  title     = {Wake Word Detection via Transfer Learning},
+  author    = {Burchill, Landon and Heffernan, Shaun and Gelli, Yuri},
+  institution = {University of Florida},
+  year      = {2026},
+  type      = {EEE4773 Final Project Report}
+}`;
+
+const taxiBibtex = `@techreport{heffernan2026taxi,
+  title     = {Predicting NYC Taxi Tips using Machine Learning},
+  author    = {Heffernan, Shaun},
+  institution = {University of Florida},
+  year      = {2026},
+  type      = {Course Project Report}
+}`;
+
+const xrayBibtex = `@techreport{heffernan2026xray,
+  title     = {Classifying Diseases from Chest X-Ray Scans using Convolutional Neural Networks},
+  author    = {Heffernan, Shaun},
+  institution = {University of Florida},
+  year      = {2026},
+  type      = {Course Project Report}
+}`;
+
+// seeded mini-heatmap for the Appendix B card (echoes the divider heatmap)
+function appxRng(seed: number) {
+  return () => {
+    seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+const xr = appxRng(14);
+const xrayCells: { x: number; y: number; o: number; hot: boolean }[] = [];
+for (let row = 0; row < 4; row++) {
+  for (let col = 0; col < 28; col++) {
+    const v = xr();
+    xrayCells.push({ x: col * 10, y: row * 10, o: 0.12 + v * 0.5, hot: v > 0.93 });
+  }
+}
+
+const shipsBibtex = `@techreport{heffernan2026ships,
+  title     = {Satellite Image Classification with Dimensionality Reduction: Detecting Cargo Ships},
+  author    = {Heffernan, Shaun},
+  institution = {University of Florida},
+  year      = {2026},
+  type      = {Signal Processing Course Project}
+}`;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Shaun Heffernan · Software Engineer · ML · Full-Stack · Real-Time</title>
+    <meta
+      name="description"
+      content="Shaun Heffernan is a computer science student at the University of Florida who builds software that ships: machine learning systems, real-time pipelines, and full-stack apps."
+    />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preconnect" href="https://api.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://cdn.fontshare.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://api.fontshare.com/v2/css?f[]=panchang@700&f[]=general-sans@400,500,600&display=swap"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Spline+Sans+Mono:wght@400;500&display=swap"
+    />
+    <script is:inline>
+      document.documentElement.classList.add('js');
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('reduced');
+      }
+    </script>
+  </head>
+
+  <body>
+    <a class="skip-link" href="#work">Skip to work</a>
+
+    <nav class="rail" aria-label="Site">
+      <a class="rail__mark" href="#top" aria-label="Back to top">S<span>/</span>H</a>
+      <div class="rail__nav">
+        <a href="#work">Work</a>
+        <a href="#experience">Experience</a>
+        <a href="#papers">Papers</a>
+        <a href="#about">About</a>
+      </div>
+      <span class="rail__rec" aria-hidden="true" data-rec></span>
+    </nav>
+
+    <main id="top-main">
+      <Hero />
+
+      <Divider stage="waveform" label="the signal · stage 01 · acquisition" />
+
+      <section id="work" aria-label="Selected work">
+        <div class="wrap sec-head reveal">
+          <span class="mono">sec. 01</span>
+          <h2 class="display">Selected work</h2>
+        </div>
+
+        <Project
+          num="01"
+          id="p-wakeword"
+          title="Wake Word Detection via Transfer Learning"
+          tags={['transfer learning', 'CNN', 'mel spectrograms', '“Go Gators”', 'flagship']}
+        >
+          <Fragment slot="narrative">
+            <p>
+              We had 360 labeled clips of <em>“Go Gators”</em> in a variety of
+              background noises, with the rest of the dataset hidden for
+              testing. That is nowhere near enough to train a detector from
+              scratch, so I wanted to try transfer learning. I found a dataset
+              from TensorFlow, Google Speech Commands, that has a lot of
+              command words which are similar to detecting wake words. We
+              trained a convolutional encoder on it, attached a classifier
+              head, and fine tuned the whole network on our recordings.
+            </p>
+            <p>
+              Each 3 second window becomes an 80 bin mel spectrogram, which
+              better approximates human speech frequencies by compressing high
+              frequencies and expanding lower ones. Three convolution blocks
+              with filters doubling from 32 to 128 feed a dense layer of just
+              32, because we want the final prediction to not be made off of a
+              lot of noise. That dense layer is surrounded by dropouts of 0.5
+              since we have such a small training set, and the final layer has
+              1 output with sigmoid:
+              <span class="stat">above 0.5 = wake word</span>.
+            </p>
+            <p>
+              The first problem I ran into was the audio samples being 16 kHz
+              instead of 48 kHz like our recorded data. I originally upsampled
+              the Google speech commands to all be 48 kHz, but it seemed my
+              upsampling was just adding noise, and validation F1 stayed in the
+              60s. So I tried downsampling the wake words to 16 kHz so they
+              could match the Google libraries. Fine tuning with the encoder
+              weights unfrozen performed significantly better than frozen,
+              reaching <span class="stat">F1 0.899</span> on the held out test
+              set (Fig. 01b tells that story).
+            </p>
+            <p class="mono">
+              Everything in Fig. 01 is the real network: the demo clips are real
+              recordings with precomputed scores, and “Record 3 s” scores your
+              own attempt with the exported ONNX model in your browser. Audio
+              never leaves your device. Write-up in
+              <a class="u-link" href="#papers">papers ↓</a>.
+            </p>
+          </Fragment>
+          <Fragment slot="exhibit"><Wakeword /></Fragment>
+          <Fragment slot="subfigure"><Downsampling /></Fragment>
+        </Project>
+
+        <Project
+          num="02"
+          id="p-glasses"
+          title="AI Smart Glasses: Audio Subsystem"
+          tags={['UF Real World Engineering', 'Parakeet STT · MLX', 'ReDimNet diarization', 'Python multiprocessing', 'ongoing']}
+        >
+          <Fragment slot="narrative">
+            <p>
+              For dementia patients, the hardest part of a conversation is often
+              <em>who am I talking to?</em> I'm on a UF Real World Engineering
+              team building AI smart glasses that answer that in real time. The
+              glasses stream camera frames and microphone audio over UDP to a
+              Python backend where face recognition, voice activity detection,
+              speech to text, and speaker diarization all run in parallel worker
+              processes, and a coordinator fuses face and voice into one
+              identity.
+            </p>
+            <p>
+              I built the audio pipeline core: 16 kHz audio in 160 ms chunks
+              through Silero VAD, Parakeet streaming transcription on Apple MLX,
+              and one ReDimNet voice embedding per sentence, matched by cosine
+              similarity with a bias toward whoever spoke last. Benchmarked on
+              the production path, transcription runs at
+              <span class="stat">RTF 0.085</span>, about 12× faster than real
+              time. When an unknown voice lines up with a known face, the system
+              registers it and learns the voice on its own.
+            </p>
+            <p>
+              I also built the monitoring dashboard end to end: an aiohttp
+              server that streams every worker's logs over a WebSocket into a
+              live control panel with the identity database, per person chat
+              history, and a face lookup tool. Plus the LLM agent worker that
+              parses intent from speech, registers people when they introduce
+              themselves, and logs every recognized sentence to a per person
+              history.
+            </p>
+            <p class="mono">
+              Fig. 02 is a real run of this pipeline, not a mockup, recorded
+              with teammates.
+              <a class="u-link" href="https://github.com/Tiger9406/Smart-Glasses" target="_blank" rel="noopener">Team repo on GitHub ↗</a>
+            </p>
+          </Fragment>
+          <Fragment slot="exhibit"><GlassesDemo /></Fragment>
+        </Project>
+
+        <Project
+          num="03"
+          id="p-mentormatch"
+          title="Mentor-Match: Stable Matching, Shipped"
+          tags={['Gale–Shapley matching', 'MERN', 'Expo', 'full-stack']}
+        >
+          <Fragment slot="narrative">
+            <p>
+              Pairing mentors with mentees is a two sided problem: a good match
+              needs both people to actually want it. Mentor-Match has mentors
+              and mentees rank each other, then runs a Gale–Shapley inspired
+              matching round. Mentors propose, mentees hold on to their best
+              offer, and a displaced mentor moves down their list until the
+              whole pairing is stable and nobody would rather swap.
+            </p>
+            <p>
+              It shipped as a full product: a MERN stack web app with an Expo
+              mobile app on top. Against hand-curated pairings the matcher
+              reached <span class="stat">~80% match accuracy</span>.
+            </p>
+            <p class="mono">
+              Fig. 03 animates one matching round from the algorithm. Run it
+              and watch a displacement happen live.
+            </p>
+          </Fragment>
+          <Fragment slot="exhibit"><MentorMatch /></Fragment>
+        </Project>
+
+        <Project
+          num="04"
+          id="p-bioclock"
+          title="BioClock: AIoT Smart Alarm"
+          tags={['ESP32', 'edge AI', 'motion + heart rate', 'Warren B. Nelms IoT Conference']}
+        >
+          <Fragment slot="narrative">
+            <p>
+              The snooze button is a lie you tell yourself at 6 a.m. BioClock kills
+              it: an ESP32 wearable whose on-device classifier reads motion and
+              heart rate and only silences the alarm when it detects
+              <em>actual wakefulness</em>.
+            </p>
+            <p>
+              Edge inference matters here: no cloud round-trip at the bedside, no
+              raw biometrics leaving the device. Presented at the Warren B. Nelms
+              IoT Conference. Drag the slider to feed the classifier.
+            </p>
+          </Fragment>
+          <Fragment slot="exhibit"><Bioclock /></Fragment>
+        </Project>
+
+        <Project
+          num="05"
+          id="p-taxitips"
+          title="Predicting NYC Taxi Tips using Machine Learning"
+          tags={['linear regression', 'LASSO λ = 0.01', 'feature selection', 'NYC Open Data']}
+        >
+          <Fragment slot="narrative">
+            <p>
+              Our data set is the NYC 2023 taxi cab data set. Each trip record
+              captures pick-up and drop-off times, taxi zone locations, trip
+              distances, itemized fares, rate types, and driver-reported
+              passenger counts. We want to figure out what the most important
+              factors are in predicting tip prices, to help taxi drivers
+              optimize the amount of tips they collect.
+            </p>
+            <p>
+              Upon inspection of the dataset, only credit card tips are
+              recorded and cash tips are not logged at all. We can't train a
+              model to predict a value that we do not know, so the cash
+              transactions had to be removed,
+              <span class="stat">roughly 20%</span> of the nearly 10,000 trip
+              dataset. I created a <em>pre tip total</em> by combining all of
+              the costs that make up the total amount before factoring in the
+              tip, and dropped the total amount because it includes the tip
+              amount so there would be data leakage.
+            </p>
+            <p>
+              I trained linear regression with cross validation of 10 folds,
+              and for the lasso a grid search picking λ from 0.0001 to 1 chose
+              <span class="stat">λ = 0.01</span>. They had very similar
+              R², <span class="stat">0.6033 vs 0.6075</span>, but lasso dropped
+              <span class="stat">15 of 27 features</span> with a 0 coefficient:
+              ride duration, passenger count, and most of the pickup days and
+              times. For the taxi driver perspective, they shouldn't focus on
+              the time of day despite the EDA suggesting otherwise. They should
+              look for <span class="stat">long rides, airport rides, and routes
+              that pass through tolls</span> because these are the best
+              predictors for the tip amount.
+            </p>
+            <p class="mono">
+              Fig. 05 plots the real fitted coefficients from the report.
+              Toggle LASSO and watch it prune. Write-up in
+              <a class="u-link" href="#papers">papers ↓</a>.
+            </p>
+          </Fragment>
+          <Fragment slot="exhibit"><TaxiTips /></Fragment>
+        </Project>
+
+        <div class="wrap appendix-wrap">
+          <p class="mono reveal">appendix · also built</p>
+          <div class="appendix">
+            <article class="card reveal">
+              <div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+              <p class="mono">Appendix A · hackathon, 2nd place</p>
+              <h3 class="paper__title">PermitPal: LLM-Assisted Access Requests</h3>
+              <svg class="appx-viz" viewBox="0 0 280 42" aria-hidden="true">
+                <text x="0" y="8">LOCAL · OLLAMA</text>
+                <rect x="0" y="12" width="260" height="5" fill="#8a8c88" opacity="0.5" />
+                <text x="0" y="31">OPENAI API · HOT PATH</text>
+                <rect x="0" y="35" width="26" height="5" fill="#e5231b" />
+              </svg>
+              <p>
+                Engineers ask for access in plain English and security teams
+                answer in RBAC. PermitPal turns a request like “deploy billing
+                to staging” into a least-privilege permission bundle, with the
+                over-broad grants explicitly refused. The unusual part is the
+                router: requests containing PII stay on a local Ollama model
+                and never leave the building, while everything else takes the
+                OpenAI API hot path for a
+                <span class="stat">~10× latency cut</span>.
+              </p>
+              <p class="project__tags mono">
+                <span>Ollama</span><span>OpenAI API</span><span>LLM routing</span><span>RBAC</span>
+              </p>
+            </article>
+            <article class="card reveal">
+              <div class="meter" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+              <p class="mono">Appendix B · course project</p>
+              <h3 class="paper__title">Chest X-Ray Disease Classification</h3>
+              <svg class="appx-viz" viewBox="0 0 280 40" aria-hidden="true">
+                {xrayCells.map((c) => (
+                  <rect x={c.x} y={c.y} width="9" height="9"
+                    fill={c.hot ? '#e5231b' : '#1a1c20'} opacity={c.hot ? 0.85 : c.o} />
+                ))}
+              </svg>
+              <p>
+                A convolutional neural network trained on ChestMNIST:
+                <span class="stat">112,120 X-ray scans</span> labeled with 14
+                diseases, where one scan can carry several at once. The real
+                lesson was class imbalance. Binary accuracy hit 0.9475 on the
+                held out test set, but mostly because predicting no disease is
+                usually right; the <span class="stat">AUC of 0.8235</span> is
+                what shows the model actually learned features. Full write-up
+                in <a class="u-link" href="#papers">papers ↓</a>.
+              </p>
+              <p class="project__tags mono">
+                <span>TensorFlow</span><span>CNN</span><span>ChestMNIST</span><span>Adam</span>
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <Divider stage="scatter" label="the signal · stage 02 · regression analysis" />
+
+      <section id="experience" aria-label="Experience">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="mono">sec. 02</span>
+            <h2 class="display">Experience</h2>
+          </div>
+          <div class="xp">
+            <article class="xp__item reveal">
+              <p class="mono">Prudential Financial<br />SWE Intern · 2025</p>
+              <div>
+                <p class="xp__role">Automation &amp; analytics at scale</p>
+                <p class="xp__desc">
+                  Built internal automation and analytics dashboards operating over
+                  <span class="stat">480k+ records</span>, turning manual
+                  reporting workflows into software the team actually uses.
+                </p>
+              </div>
+            </article>
+            <div class="ticks reveal" aria-hidden="true"></div>
+            <article class="xp__item reveal">
+              <p class="mono">UF Real World Engineering<br />Software Engineer · ongoing</p>
+              <div>
+                <p class="xp__role">Audio subsystem lead · AI smart glasses</p>
+                <p class="xp__desc">
+                  Leading the real-time audio pipeline (project 02 above): streaming,
+                  diarization, transcription, and cross-modal identity for a device
+                  that helps dementia patients recognize the people around them.
+                </p>
+              </div>
+            </article>
+            <div class="ticks reveal" aria-hidden="true"></div>
+            <article class="xp__item reveal">
+              <p class="mono">University of Florida<br />B.S. Computer Science · May 2028</p>
+              <div>
+                <p class="xp__role">GPA 3.97</p>
+                <p class="xp__desc">
+                  Coursework and research at the intersection of machine learning
+                  and signal processing.
+                </p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <Divider stage="heatmap" label="the signal · stage 03 · neural attention" />
+
+      <section id="papers" aria-label="Papers and writing">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="mono">sec. 03</span>
+            <h2 class="display">Papers</h2>
+          </div>
+          <div class="papers-grid">
+          <PaperCard
+            title="Wake Word Detection via Transfer Learning"
+            authors="L. Burchill, S. Heffernan, Y. Gelli"
+            venue="EEE4773 Final Project · UF"
+            year="2026"
+            abstract="This report is a culmination of experiments carried out to train a model to detect the presence of the wake words “Go Gators” in audio samples with a variety of background noises. There is a total of 450 samples with hidden, easy, samples reserved for testing. Of the 450 total samples, 360 were available for training. Each researcher conducted their own experiments in pursuit of finding the final model, and their findings will be covered in the experiments section. The implementation section will focus on the development of the final submitted model to be used for testing."
+            pdfUrl="/papers/wakeword-transfer-learning.pdf"
+            bibtex={bibtex}
+          />
+          <PaperCard
+            title="Predicting NYC Taxi Tips using Machine Learning"
+            authors="S. Heffernan"
+            venue="ML Course Project · UF"
+            year="2026"
+            abstract="This document shows an analysis of the NYC 2023 Taxi Cab data set. It includes exploratory data analysis and model creation and performance evaluation."
+            pdfUrl="/papers/nyc_taxi.pdf"
+            bibtex={taxiBibtex}
+          />
+          <PaperCard
+            title="Classifying Diseases from Chest X-Ray Scans using Convolutional Neural Networks"
+            authors="S. Heffernan"
+            venue="Course Project · UF"
+            year="2026"
+            abstract="This document shows an analysis of chest lung X-ray data. The goal is to train a convolutional neural network to classify specific diseases."
+            pdfUrl="/papers/xray_classification.pdf"
+            bibtex={xrayBibtex}
+          />
+          <PaperCard
+            title="Satellite Image Classification with Dimensionality Reduction: Detecting Cargo Ships"
+            authors="S. Heffernan"
+            venue="Signal Processing · UF"
+            year="2026"
+            abstract="We apply dimensionality reduction techniques to classify ship presence in 80×80 satellite images from San Francisco Bay. Principal Component Analysis (PCA) reduces the 19,200-dimensional RGB feature space to 103 components while retaining 90% variance. Comparison of random forest and logistic regression on raw features, PCA-reduced features, and manifold learning embeddings (LLE, ISOMAP) shows that random forest achieves best performance (95.4% accuracy, 0.90 F1) without dimensionality reduction, though PCA provides comparable results with significantly reduced computational complexity."
+            pdfUrl="/papers/cargo_ships.pdf"
+            bibtex={shipsBibtex}
+          />
+          </div>
+        </div>
+      </section>
+
+      <Divider stage="segments" label="the signal · stage 04 · documented" />
+
+      <section id="about" class="about" aria-label="About and contact">
+        <div class="wrap">
+          <div class="sec-head reveal">
+            <span class="mono">sec. 04</span>
+            <h2 class="display">About</h2>
+          </div>
+          <div class="about__grid">
+            <div class="reveal">
+              <p>
+                I'm Shaun, a computer science student at the University of
+                Florida. I've trained a wake word model and shipped it running
+                live in the browser, lead the real-time audio pipeline on a
+                team building AI smart glasses, and built full-stack apps from
+                the database to the mobile front end.
+              </p>
+              <p>
+                The thread through everything I build is taking an idea from a
+                paper or a class and making it <strong>run for real</strong>:
+                in the browser, on a server, on hardware. Research-grade
+                thinking, shipped as working software.
+              </p>
+              <p>
+                If you're building something interesting, I'd love to talk.
+              </p>
+            </div>
+            <div class="about__contact reveal">
+              <a class="u-link" href="mailto:heffernanshaun2@gmail.com">heffernanshaun2@gmail.com</a>
+              <a class="u-link" href="https://github.com/sheff2">github.com/sheff2</a>
+              <a class="u-link" href="https://linkedin.com/in/shaunheff">linkedin.com/in/shaunheff</a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <Divider stage="states" label="the signal · stage 05 · resolved. say hello." />
+
+      <footer class="wrap">
+        <span class="mono">© 2026 Shaun Heffernan</span>
+        <span class="mono">set in Panchang · General Sans · Spline Sans Mono</span>
+      </footer>
+    </main>
+
+    <script>
+      import '../scripts/main.js';
+    </script>
+  </body>
+</html>

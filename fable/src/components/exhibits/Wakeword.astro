@@ -1,0 +1,93 @@
+<figure class="exhibit" data-exhibit="wakeword" data-src="/data/wakeword-clips.json" id="fig-01">
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 01</strong> · wake-word detector · “Go Gators”</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono" data-mode-label>mode: precomputed</span>
+  </div>
+
+  <div class="ww-clips" role="group" aria-label="Demo clip" data-clips>
+    <noscript><p class="mono">Interactive exhibit requires JavaScript.</p></noscript>
+  </div>
+
+  <button class="btn ww-record" type="button" data-record
+    title="Records 3 seconds from your microphone and scores it with the trained network locally in your browser. Nothing is uploaded.">
+    <span class="ww-record__dot" aria-hidden="true"></span>
+    Record 3 s · say “Go Gators”
+  </button>
+
+  <p class="mono" data-status hidden aria-live="polite" style="margin: 0.4rem 0"></p>
+
+  <canvas data-spec height="160" role="img" aria-label="Mel spectrogram of the selected audio"></canvas>
+  <canvas data-gauge height="56" role="img"
+    aria-label="Wake-word detection score against the 0.5 threshold"
+    style="margin-top: 0.6rem"></canvas>
+
+  <label class="mono" for="ww-scrub" data-scrub-label style="display:block; margin-top:0.6rem">Scrub</label>
+  <input type="range" id="ww-scrub" data-scrub min="0" max="300" value="0" step="1" />
+
+  <div class="ctl-row">
+    <button class="btn btn--red" type="button" data-play aria-pressed="false">Play ▸</button>
+    <p class="readout">
+      <span data-ro-time>t = 0.00 s</span>
+      <span data-ro-score>p = –</span>
+      <span data-ro-state aria-live="polite">listening…</span>
+    </p>
+  </div>
+
+  <figcaption class="figcap mono">
+    Real recordings, real inference: an encoder trained on Google Speech Commands
+    with a classifier head, fine tuned on “Go Gators”, scores each 3 s window.
+    Sigmoid output above the red 0.5 threshold = wake word. That threshold can be
+    tuned depending on whether you prioritize false positives or false negatives.
+    “Record 3 s” scores your own attempt with the exported ONNX network locally in
+    your browser. Audio never leaves your device.
+  </figcaption>
+</figure>
+
+<style is:global>
+  /* demo clips: uniform 2-up grid; an odd last clip spans the full row */
+  .ww-clips {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin: 0.9rem 0 0.5rem;
+  }
+  .ww-clips .btn {
+    width: 100%;
+    padding: 0.5rem 0.4rem;
+  }
+  .ww-clips .btn:last-child:nth-child(odd) { grid-column: 1 / -1; }
+
+  /* record: the one loud control — full width, REC red */
+  .ww-record {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    padding: 0.65rem 0.85rem;
+    margin: 0 0 0.9rem;
+    border-color: var(--c-red);
+    color: var(--c-red);
+  }
+  .ww-record:hover:not(:disabled) {
+    background: var(--c-red);
+    border-color: var(--c-red);
+    color: var(--c-bg);
+  }
+  .ww-record__dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ww-record:not(:disabled) .ww-record__dot { animation: ww-rec-pulse 1.6s ease-in-out infinite; }
+  }
+  @keyframes ww-rec-pulse {
+    50% { opacity: 0.25; }
+  }
+  @media (max-width: 420px) {
+    .ww-clips { grid-template-columns: 1fr; }
+  }
+</style>

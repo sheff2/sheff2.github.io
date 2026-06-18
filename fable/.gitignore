@@ -1,0 +1,15 @@
+# build
+dist/
+node_modules/
+.astro/
+
+# ML workspace — large artifacts stay out of git (npy is 207 MB, over GitHub's push limit)
+ml/.venv/
+ml/wakeword/src/*.npy
+ml/wakeword/exports/
+
+# onnxruntime-web wasm runtime — regenerated from node_modules by `npm run prepare:ort`
+public/ort/
+
+# os
+.DS_Store

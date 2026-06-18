@@ -1,0 +1,34 @@
+---
+interface Props {
+  num: string;
+  id: string;
+  title: string;
+  tags: string[];
+}
+const { num, id, title, tags } = Astro.props;
+---
+
+<section class="project wrap" id={id} data-project>
+  <header class="project__head reveal">
+    <p class="project__num" aria-hidden="true">{num}</p>
+    <div>
+      <h3 class="project__title">{title}</h3>
+      <p class="project__tags mono">
+        {tags.map((t) => <span>{t}</span>)}
+      </p>
+    </div>
+  </header>
+  <div class="project__grid">
+    <div class="project__narrative reveal">
+      <slot name="narrative" />
+    </div>
+    <div class="reveal">
+      <slot name="exhibit" />
+    </div>
+  </div>
+  {Astro.slots.has('subfigure') && (
+    <div class="project__subfigure reveal">
+      <slot name="subfigure" />
+    </div>
+  )}
+</section>

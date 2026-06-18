@@ -1,0 +1,80 @@
+<figure class="exhibit" data-exhibit="permitpal" data-src="/data/permitpal.json" id="fig-03">
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 03</strong> · route &amp; recommend</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono">precomputed responses</span>
+  </div>
+
+  <div class="ctl-row" role="group" aria-label="Example access request" data-queries></div>
+
+  <p class="pp-query mono" data-query-box>select a request, then run ↓</p>
+
+  <div class="ctl-row">
+    <button class="btn btn--red" type="button" data-run disabled>Run query ▸</button>
+    <span class="mono" data-route-note></span>
+  </div>
+
+  <div class="pp-race" aria-hidden="false">
+    <div class="pp-lane">
+      <span class="mono">local · ollama</span>
+      <span class="pp-track"><i data-lane-local></i></span>
+      <span class="mono" data-ms-local>–</span>
+    </div>
+    <div class="pp-lane">
+      <span class="mono">openai api</span>
+      <span class="pp-track"><i data-lane-api></i></span>
+      <span class="mono" data-ms-api>–</span>
+    </div>
+  </div>
+
+  <div class="pp-bundle" data-bundle hidden>
+    <p class="mono"><strong data-bundle-name></strong></p>
+    <ul data-bundle-list></ul>
+    <p class="mono pp-excluded-head" data-excluded-head hidden>deliberately not granted</p>
+    <ul data-excluded-list class="pp-excluded"></ul>
+  </div>
+
+  <figcaption class="figcap mono">
+    Hot path routed to the API for a ~10× latency cut; PII requests stay on-prem.
+  </figcaption>
+</figure>
+
+<style>
+  .pp-query {
+    border: 1px dashed var(--c-baffle);
+    padding: 0.7rem 0.9rem;
+    margin: 0.2rem 0 0.4rem;
+    text-transform: none;
+    letter-spacing: 0.04em;
+    color: var(--c-ink);
+    min-height: 2.6em;
+  }
+  .pp-race { margin-top: 0.4rem; }
+  .pp-lane {
+    display: grid;
+    grid-template-columns: 6.5rem 1fr 4rem;
+    gap: 0.8rem;
+    align-items: center;
+    margin-top: 0.5rem;
+  }
+  .pp-track { display: block; height: 6px; background: var(--c-panel); border: 1px solid var(--c-baffle); }
+  .pp-track i { display: block; height: 100%; width: 0%; background: var(--c-foam); }
+  .pp-lane.is-winner .pp-track i { background: var(--c-red); }
+  .pp-lane.is-blocked .pp-track { border-style: dashed; }
+  .pp-bundle { margin-top: 1rem; border-top: 1px dashed var(--c-baffle); padding-top: 0.8rem; }
+  .pp-bundle ul { list-style: none; padding: 0; margin-top: 0.5rem; }
+  .pp-bundle li {
+    font-family: var(--f-mono);
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    padding: 0.35rem 0;
+    border-bottom: 1px dashed var(--c-baffle);
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem 0.8rem;
+  }
+  .pp-bundle li .scope { color: var(--c-ink); font-weight: 500; }
+  .pp-bundle li .why { color: var(--c-foam); }
+  .pp-excluded-head { margin-top: 0.8rem; color: var(--c-red); }
+  .pp-excluded li .scope { text-decoration: line-through; color: var(--c-foam); }
+</style>

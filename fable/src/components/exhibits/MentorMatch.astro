@@ -1,0 +1,23 @@
+<figure class="exhibit" data-exhibit="mentormatch" data-src="/data/mentormatch.json" id="fig-03">
+  <div class="exhibit__bar">
+    <span class="mono"><strong>Fig. 03</strong> · stable matching round</span>
+    <span class="ticks" aria-hidden="true"></span>
+    <span class="mono">synthetic preferences</span>
+  </div>
+
+  <div class="ctl-row">
+    <button class="btn btn--red" type="button" data-run-match>Run a matching round ▸</button>
+    <span class="mono" data-match-status aria-live="polite"></span>
+    <noscript><p class="mono">Interactive exhibit requires JavaScript.</p></noscript>
+  </div>
+
+  <svg data-match-svg viewBox="0 0 560 170" role="img"
+    aria-label="Animated matching round between three mentors and three mentees"
+    style="margin-top: 0.6rem"></svg>
+
+  <figcaption class="figcap mono">
+    Mentors propose, mentees hold their best offer, and displaced mentors try
+    again until the matching is stable. The animation plays one full round of
+    the algorithm. Names and preferences here are synthetic.
+  </figcaption>
+</figure>

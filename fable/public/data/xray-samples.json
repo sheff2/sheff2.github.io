@@ -1,0 +1,352 @@
+{
+  "diseases": [
+    {
+      "id": "atelectasis",
+      "name": "Atelectasis",
+      "abbreviation": "Atel",
+      "description": "Collapse or incomplete expansion of lung tissue",
+      "prevalence": 0.103
+    },
+    {
+      "id": "cardiomegaly",
+      "name": "Cardiomegaly",
+      "abbreviation": "Card",
+      "description": "Enlarged heart visible on chest X-ray",
+      "prevalence": 0.025
+    },
+    {
+      "id": "effusion",
+      "name": "Effusion",
+      "abbreviation": "Effu",
+      "description": "Fluid accumulation in pleural space",
+      "prevalence": 0.119
+    },
+    {
+      "id": "infiltration",
+      "name": "Infiltration",
+      "abbreviation": "Infi",
+      "description": "Inflammatory process in lung parenchyma",
+      "prevalence": 0.177
+    },
+    {
+      "id": "mass",
+      "name": "Mass",
+      "abbreviation": "Mass",
+      "description": "Abnormal tissue growth or tumor",
+      "prevalence": 0.051
+    },
+    {
+      "id": "nodule",
+      "name": "Nodule",
+      "abbreviation": "Nodu",
+      "description": "Small round opacity in lung tissue",
+      "prevalence": 0.056
+    },
+    {
+      "id": "pneumonia",
+      "name": "Pneumonia",
+      "abbreviation": "Pneu",
+      "description": "Infection causing inflammation of lungs",
+      "prevalence": 0.013
+    },
+    {
+      "id": "pneumothorax",
+      "name": "Pneumothorax",
+      "abbreviation": "Pntx",
+      "description": "Air in pleural space causing lung collapse",
+      "prevalence": 0.047
+    },
+    {
+      "id": "consolidation",
+      "name": "Consolidation",
+      "abbreviation": "Cons",
+      "description": "Dense opacity from fluid/tissue in airways",
+      "prevalence": 0.041
+    },
+    {
+      "id": "edema",
+      "name": "Edema",
+      "abbreviation": "Edem",
+      "description": "Fluid accumulation in lung tissue",
+      "prevalence": 0.021
+    },
+    {
+      "id": "emphysema",
+      "name": "Emphysema",
+      "abbreviation": "Emph",
+      "description": "Enlarged air spaces and damaged alveoli",
+      "prevalence": 0.022
+    },
+    {
+      "id": "fibrosis",
+      "name": "Fibrosis",
+      "abbreviation": "Fibr",
+      "description": "Scarring and thickening of lung tissue",
+      "prevalence": 0.015
+    },
+    {
+      "id": "pleural_thickening",
+      "name": "Pleural Thickening",
+      "abbreviation": "PlTh",
+      "description": "Thickening of pleural membrane",
+      "prevalence": 0.030
+    },
+    {
+      "id": "hernia",
+      "name": "Hernia",
+      "abbreviation": "Hern",
+      "description": "Protrusion of organ through tissue wall",
+      "prevalence": 0.002
+    }
+  ],
+  "model": {
+    "name": "CNN Classifier",
+    "architecture": "3-layer CNN with 32→64→128 filters",
+    "binary_accuracy": 0.9475,
+    "auc": 0.8235,
+    "loss": 0.1676,
+    "threshold": 0.5
+  },
+  "samples": [
+    {
+      "id": "xray-001",
+      "label": "Normal chest X-ray",
+      "description": "Clear lung fields with normal heart size and mediastinal contours",
+      "imageUrl": "/images/xray-placeholder-normal.svg",
+      "groundTruth": {
+        "atelectasis": false,
+        "cardiomegaly": false,
+        "effusion": false,
+        "infiltration": false,
+        "mass": false,
+        "nodule": false,
+        "pneumonia": false,
+        "pneumothorax": false,
+        "consolidation": false,
+        "edema": false,
+        "emphysema": false,
+        "fibrosis": false,
+        "pleural_thickening": false,
+        "hernia": false
+      },
+      "predictions": {
+        "atelectasis": 0.08,
+        "cardiomegaly": 0.12,
+        "effusion": 0.05,
+        "infiltration": 0.15,
+        "mass": 0.03,
+        "nodule": 0.07,
+        "pneumonia": 0.02,
+        "pneumothorax": 0.04,
+        "consolidation": 0.09,
+        "edema": 0.06,
+        "emphysema": 0.11,
+        "fibrosis": 0.08,
+        "pleural_thickening": 0.10,
+        "hernia": 0.01
+      },
+      "confidence": 0.92,
+      "classification": "Normal"
+    },
+    {
+      "id": "xray-002",
+      "label": "Cardiomegaly present",
+      "description": "Enlarged cardiac silhouette with increased cardiothoracic ratio",
+      "imageUrl": "/images/xray-placeholder-cardiomegaly.svg",
+      "groundTruth": {
+        "atelectasis": false,
+        "cardiomegaly": true,
+        "effusion": false,
+        "infiltration": false,
+        "mass": false,
+        "nodule": false,
+        "pneumonia": false,
+        "pneumothorax": false,
+        "consolidation": false,
+        "edema": false,
+        "emphysema": false,
+        "fibrosis": false,
+        "pleural_thickening": false,
+        "hernia": false
+      },
+      "predictions": {
+        "atelectasis": 0.15,
+        "cardiomegaly": 0.87,
+        "effusion": 0.22,
+        "infiltration": 0.18,
+        "mass": 0.08,
+        "nodule": 0.12,
+        "pneumonia": 0.05,
+        "pneumothorax": 0.09,
+        "consolidation": 0.14,
+        "edema": 0.31,
+        "emphysema": 0.16,
+        "fibrosis": 0.19,
+        "pleural_thickening": 0.25,
+        "hernia": 0.03
+      },
+      "confidence": 0.87,
+      "classification": "Cardiomegaly"
+    },
+    {
+      "id": "xray-003",
+      "label": "Pleural effusion",
+      "description": "Blunted costophrenic angles with fluid accumulation in pleural space",
+      "imageUrl": "/images/xray-placeholder-effusion.svg",
+      "groundTruth": {
+        "atelectasis": false,
+        "cardiomegaly": false,
+        "effusion": true,
+        "infiltration": false,
+        "mass": false,
+        "nodule": false,
+        "pneumonia": false,
+        "pneumothorax": false,
+        "consolidation": false,
+        "edema": false,
+        "emphysema": false,
+        "fibrosis": false,
+        "pleural_thickening": false,
+        "hernia": false
+      },
+      "predictions": {
+        "atelectasis": 0.28,
+        "cardiomegaly": 0.19,
+        "effusion": 0.82,
+        "infiltration": 0.24,
+        "mass": 0.11,
+        "nodule": 0.15,
+        "pneumonia": 0.08,
+        "pneumothorax": 0.13,
+        "consolidation": 0.26,
+        "edema": 0.33,
+        "emphysema": 0.17,
+        "fibrosis": 0.21,
+        "pleural_thickening": 0.45,
+        "hernia": 0.04
+      },
+      "confidence": 0.82,
+      "classification": "Effusion"
+    },
+    {
+      "id": "xray-004",
+      "label": "Pneumonia with infiltrates",
+      "description": "Patchy opacities in bilateral lower lobes consistent with pneumonia",
+      "imageUrl": "/images/xray-placeholder-pneumonia.svg",
+      "groundTruth": {
+        "atelectasis": false,
+        "cardiomegaly": false,
+        "effusion": false,
+        "infiltration": true,
+        "mass": false,
+        "nodule": false,
+        "pneumonia": true,
+        "pneumothorax": false,
+        "consolidation": true,
+        "edema": false,
+        "emphysema": false,
+        "fibrosis": false,
+        "pleural_thickening": false,
+        "hernia": false
+      },
+      "predictions": {
+        "atelectasis": 0.34,
+        "cardiomegaly": 0.16,
+        "effusion": 0.28,
+        "infiltration": 0.91,
+        "mass": 0.18,
+        "nodule": 0.22,
+        "pneumonia": 0.76,
+        "pneumothorax": 0.07,
+        "consolidation": 0.84,
+        "edema": 0.41,
+        "emphysema": 0.19,
+        "fibrosis": 0.29,
+        "pleural_thickening": 0.31,
+        "hernia": 0.05
+      },
+      "confidence": 0.84,
+      "classification": "Multi-label: Infiltration, Pneumonia, Consolidation"
+    },
+    {
+      "id": "xray-005",
+      "label": "Pneumothorax",
+      "description": "Visible pleural line with absence of lung markings peripherally",
+      "imageUrl": "/images/xray-placeholder-pneumothorax.svg",
+      "groundTruth": {
+        "atelectasis": false,
+        "cardiomegaly": false,
+        "effusion": false,
+        "infiltration": false,
+        "mass": false,
+        "nodule": false,
+        "pneumonia": false,
+        "pneumothorax": true,
+        "consolidation": false,
+        "edema": false,
+        "emphysema": false,
+        "fibrosis": false,
+        "pleural_thickening": false,
+        "hernia": false
+      },
+      "predictions": {
+        "atelectasis": 0.21,
+        "cardiomegaly": 0.14,
+        "effusion": 0.18,
+        "infiltration": 0.23,
+        "mass": 0.09,
+        "nodule": 0.16,
+        "pneumonia": 0.07,
+        "pneumothorax": 0.79,
+        "consolidation": 0.12,
+        "edema": 0.15,
+        "emphysema": 0.31,
+        "fibrosis": 0.18,
+        "pleural_thickening": 0.24,
+        "hernia": 0.03
+      },
+      "confidence": 0.79,
+      "classification": "Pneumothorax"
+    },
+    {
+      "id": "xray-006",
+      "label": "Mass in right upper lobe",
+      "description": "Well-defined round opacity in right upper lobe concerning for mass",
+      "imageUrl": "/images/xray-placeholder-mass.svg",
+      "groundTruth": {
+        "atelectasis": false,
+        "cardiomegaly": false,
+        "effusion": false,
+        "infiltration": false,
+        "mass": true,
+        "nodule": false,
+        "pneumonia": false,
+        "pneumothorax": false,
+        "consolidation": false,
+        "edema": false,
+        "emphysema": false,
+        "fibrosis": false,
+        "pleural_thickening": false,
+        "hernia": false
+      },
+      "predictions": {
+        "atelectasis": 0.19,
+        "cardiomegaly": 0.11,
+        "effusion": 0.14,
+        "infiltration": 0.27,
+        "mass": 0.74,
+        "nodule": 0.68,
+        "pneumonia": 0.09,
+        "pneumothorax": 0.06,
+        "consolidation": 0.22,
+        "edema": 0.12,
+        "emphysema": 0.15,
+        "fibrosis": 0.20,
+        "pleural_thickening": 0.17,
+        "hernia": 0.02
+      },
+      "confidence": 0.74,
+      "classification": "Mass (possibly nodule)"
+    }
+  ]
+}

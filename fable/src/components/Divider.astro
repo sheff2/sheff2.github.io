@@ -1,0 +1,113 @@
+---
+/**
+ * The Through-Line: one signal, progressively more processed as you scroll.
+ * stage: waveform → melbands → segments → states → scatter → heatmap → flatline
+ */
+interface Props {
+  stage: 'waveform' | 'melbands' | 'segments' | 'states' | 'scatter' | 'heatmap' | 'flatline';
+  label: string;
+}
+const { stage, label } = Astro.props;
+
+const W = 1200;
+const H = 64;
+const mid = H / 2;
+
+function rng(seed: number) {
+  return () => {
+    seed |= 0; seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+let body = '';
+if (stage === 'waveform') {
+  const r = rng(42);
+  let d = `M 0 ${mid}`;
+  for (let x = 8; x <= W; x += 8) {
+    const env = Math.exp(-(((x - W * 0.45) / (W * 0.3)) ** 2));
+    const y = mid + (r() - 0.5) * 52 * env + Math.sin(x * 0.05) * 8 * env;
+    d += ` L ${x} ${Math.round(y * 10) / 10}`;
+  }
+  body = `<path class="signal-path" d="${d}" />`;
+} else if (stage === 'melbands') {
+  const r = rng(7);
+  let bars = '';
+  for (let x = 0; x <= W; x += 10) {
+    const env = 0.25 + 0.75 * Math.exp(-(((x - W * 0.5) / (W * 0.34)) ** 2));
+    const h = Math.max(2, r() * 46 * env);
+    bars += `<line class="signal-path" x1="${x}" y1="${mid - h / 2}" x2="${x}" y2="${mid + h / 2}" />`;
+  }
+  body = bars;
+} else if (stage === 'segments') {
+  const segs = [
+    [0, 180, mid], [200, 430, mid - 14], [450, 560, mid + 12], [580, 820, mid - 14],
+    [840, 1000, mid], [1020, 1200, mid + 12],
+  ];
+  body = segs
+    .map(([a, b, y], i) =>
+      `<line class="signal-path${i === 3 ? ' signal-red' : ''}" x1="${a}" y1="${y}" x2="${b}" y2="${y}" stroke-width="${i === 3 ? 3 : 2}" />`)
+    .join('');
+} else if (stage === 'states') {
+  const lvls = [mid + 16, mid + 16, mid, mid + 16, mid, mid - 16, mid - 16];
+  let d = `M 0 ${lvls[0]}`;
+  lvls.forEach((y, i) => {
+    const x = Math.round(((i + 1) / lvls.length) * W);
+    d += ` L ${x} ${y}`;
+    if (i < lvls.length - 1) d += ` L ${x} ${lvls[i + 1]}`;
+  });
+  body = `<path class="signal-path" d="${d}" /><circle class="signal-impulse signal-red" cx="${Math.round((5 / lvls.length) * W)}" cy="${mid - 16}" r="3.5" />`;
+} else if (stage === 'scatter') {
+  // Regression scatter plot: scattered points with trend line
+  const r = rng(23);
+  let points = '';
+  let trendLine = `M 0 ${mid + 8}`;
+
+  for (let x = 0; x <= W; x += 25) {
+    // Create scatter points with some correlation
+    const baseY = mid + 8 - (x / W) * 16 + (r() - 0.5) * 20;
+    const y = Math.max(4, Math.min(H - 4, baseY));
+    points += `<circle class="signal-path" cx="${x}" cy="${y}" r="1.5" />`;
+
+    // Add some points to trend line
+    if (x % 150 === 0) {
+      const trendY = mid + 8 - (x / W) * 16;
+      trendLine += ` L ${x} ${trendY}`;
+    }
+  }
+
+  // Add a few red points (outliers/predictions)
+  points += `<circle class="signal-red" cx="${W * 0.3}" cy="${mid - 8}" r="2.5" />`;
+  points += `<circle class="signal-red" cx="${W * 0.7}" cy="${mid + 4}" r="2.5" />`;
+
+  body = points + `<path class="signal-path" d="${trendLine}" stroke-width="1.5" opacity="0.6" />`;
+} else if (stage === 'heatmap') {
+  // CNN heatmap: grid pattern with intensity variations
+  const r = rng(31);
+  let heatmap = '';
+  const gridSize = 8;
+
+  for (let y = 4; y < H - 4; y += gridSize) {
+    for (let x = 0; x < W; x += gridSize) {
+      const intensity = r();
+      const opacity = 0.2 + intensity * 0.6;
+      const isHot = intensity > 0.7;
+
+      heatmap += `<rect class="${isHot ? 'signal-red' : 'signal-path'}" x="${x}" y="${y}" width="${gridSize - 1}" height="${gridSize - 1}" opacity="${opacity}" />`;
+    }
+  }
+
+  body = heatmap;
+} else {
+  body = `<path class="signal-path" d="M 0 ${mid} L ${W * 0.46} ${mid} L ${W * 0.475} ${mid - 18} L ${W * 0.49} ${mid + 12} L ${W * 0.505} ${mid} L ${W} ${mid}" />`;
+}
+---
+
+<figure class="divider wrap" data-divider>
+  <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" aria-hidden="true">
+    <Fragment set:html={body} />
+  </svg>
+  <figcaption class="mono">{label}</figcaption>
+</figure>
