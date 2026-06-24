@@ -89,6 +89,14 @@ const shipsBibtex = `@techreport{heffernan2026ships,
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('reduced');
       }
+      // Deep-link: don't let the browser jump to #section on load. Stash the
+      // target and strip the hash so the page loads normally from the top;
+      // main.js glides down to it once fonts + exhibits have settled.
+      if (location.hash.length > 1) {
+        window.__deepLinkTarget = decodeURIComponent(location.hash.slice(1));
+        if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+        history.replaceState(null, '', location.pathname + location.search);
+      }
     </script>
   </head>
 

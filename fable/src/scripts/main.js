@@ -1,7 +1,8 @@
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { ScrollToPlugin } from 'gsap/ScrollToPlugin';
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
 
 const mm = gsap.matchMedia();
 
@@ -158,16 +159,95 @@ function scheduleRefresh() {
 const io = new IntersectionObserver(
   (entries) => {
     entries.forEach((entry) => {
-      if (!entry.isIntersecting) return;
-      const root = entry.target;
-      io.unobserve(root);
-      const name = root.dataset.exhibit;
-      loaders[name]?.().then((m) => m.default(root)).then(scheduleRefresh).catch((err) => {
-        console.error(`exhibit ${name} failed`, err);
-        root.insertAdjacentHTML('beforeend', '<p class="mono">Exhibit failed to load.</p>');
-      });
+      if (entry.isIntersecting) loadExhibit(entry.target);
     });
   },
   { rootMargin: '320px 0px' }
 );
+
+// Shared by the observer and the deep-link preloader so an exhibit is only
+// ever initialised once. Returns a promise that resolves when it's settled.
+const loadedExhibits = new WeakSet();
+function loadExhibit(root) {
+  if (loadedExhibits.has(root)) return Promise.resolve();
+  loadedExhibits.add(root);
+  io.unobserve(root);
+  const name = root.dataset.exhibit;
+  return (loaders[name]?.() ?? Promise.resolve())
+    .then((m) => m?.default(root))
+    .then(scheduleRefresh)
+    .catch((err) => {
+      console.error(`exhibit ${name} failed`, err);
+      root.insertAdjacentHTML('beforeend', '<p class="mono">Exhibit failed to load.</p>');
+    });
+}
 document.querySelectorAll('[data-exhibit]').forEach((el) => io.observe(el));
+
+/* ============================================================
+ * deep-link glide — the head script stashed the hash and kept the
+ * browser at the top so the page loads normally. We then load every
+ * exhibit at/above the target up front so the page below stops growing,
+ * let it settle, and run ONE timed GSAP tween to the section. Preloading
+ * (not snapping) is what stops the choppy "still loading" jumps; the
+ * tween duration is the speed knob. Aborts if the visitor scrolls first.
+ * ============================================================ */
+const GLIDE_DURATION = 1.6; // seconds — raise to slow the scroll, lower to speed it
+const GLIDE_OFFSET = 64; // px gap above the title (matches scroll-padding-top: 4rem)
+
+const deepLinkId = window.__deepLinkTarget;
+const deepLinkEl = deepLinkId && document.getElementById(deepLinkId);
+if (deepLinkEl) {
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // The head script stripped the hash to stop the browser's instant jump.
+  // Put it back now (replaceState never scrolls) so the URL stays shareable
+  // through the load + glide instead of sitting bare.
+  history.replaceState(null, '', '#' + deepLinkId);
+
+  // reveals leave the header invisible/shifted on first paint — force the
+  // target's reveals to rest state so we land on a visible title.
+  const pin = () =>
+    deepLinkEl.querySelectorAll('.reveal').forEach((r) => gsap.set(r, { opacity: 1, y: 0 }));
+
+  // every exhibit that sits at or above the target — load these before
+  // scrolling so nothing injects DOM mid-glide and shifts the destination.
+  const inPath = [...document.querySelectorAll('[data-exhibit]')].filter(
+    (el) =>
+      deepLinkEl.contains(el) ||
+      el.compareDocumentPosition(deepLinkEl) & Node.DOCUMENT_POSITION_FOLLOWING
+  );
+
+  const ready = Promise.all([
+    document.fonts?.ready ?? Promise.resolve(),
+    new Promise((res) =>
+      document.readyState === 'complete' ? res() : addEventListener('load', res, { once: true })
+    ),
+  ]);
+
+  ready
+    // Load in-path exhibits so they stop reflowing, but cap the wait: their
+    // init() awaits data fetches and a first render, and we must never let a
+    // slow one stall the scroll entirely.
+    .then(() =>
+      Promise.race([
+        Promise.all(inPath.map(loadExhibit)),
+        new Promise((res) => setTimeout(res, 1200)),
+      ])
+    )
+    .then(() => new Promise((res) => setTimeout(res, 200))) // let injected DOM settle
+    .then(() => {
+      // If the visitor already scrolled during load, they've taken over —
+      // don't hijack them. (A simple position check, not an input listener,
+      // so a stray trackpad twitch that moved nothing can't cancel us.)
+      if (window.scrollY > 4) return;
+      pin();
+      ScrollTrigger.refresh();
+      gsap.to(window, {
+        duration: reduce ? 0 : GLIDE_DURATION,
+        ease: 'power2.inOut',
+        // autoKill lets a genuine scroll during the glide cancel it; it's only
+        // armed now, so input while loading can't kill the glide before it runs.
+        scrollTo: { y: deepLinkEl, offsetY: GLIDE_OFFSET, autoKill: true },
+      });
+    });
+}
